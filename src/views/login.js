@@ -1,7 +1,7 @@
 import {logIn} from '../model/firebase-auth.js';
 export const loginPrincipal=()=>{
-	
-	const viewLogin =` 
+ 
+  const viewLogin =` 
 	<section id="view-login-desktop">
 		<div class="imagen-login item-login">
  		 <img id="img-colegio" src="/img/imagen-login.png">
@@ -54,7 +54,7 @@ btnGmail.addEventListener('click', (e) => {
 const btnFb = div.querySelector('#btn-fb');
 
 btnFb.addEventListener('click', (e) => {
-		
+
 	e.preventDefault();
 	console.log(e);
 	const provider = new firebase.auth.FacebookAuthProvider();
