@@ -51,6 +51,7 @@ export const timelineView = () => {
       </div>
     </section>
   </section> `;
-
-  return timeline;
+  const div= document.createElement('div')
+	div.innerHTML=timeline;
+	return div;
 };
