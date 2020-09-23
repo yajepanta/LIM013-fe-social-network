@@ -36,5 +36,7 @@ export const registerView = () => {
       </ul> 
     </form>
 </section> `;
-  return registerTmplt;
+const div= document.createElement('div')
+div.innerHTML=registerTmplt;
+return div;
 };

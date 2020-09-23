@@ -3,11 +3,15 @@ header {
     width: 100vw;
     height: 80px;
     /* position: fixed; */
-    display: flex;
+    display: none;
     justify-content: space-between;
     align-items: center;
   
 }
+.mostrar{
+    display: flex;
+}
+
 /* el botón check asociado al input */
 #check-menu {
     display: none;

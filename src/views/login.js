@@ -1,3 +1,4 @@
+import {logIn} from '../model/firebase-auth.js';
 export const loginPrincipal=()=>{
 	
 	const viewLogin =` 
@@ -14,12 +15,12 @@ export const loginPrincipal=()=>{
 				<img id="img-celular" src="/img/fondo-celular.png">
 			</div>
 			<div id="formulario-principal">
-				<form >
+				<form id="form-login">
 					<i class="fas fa-envelope-square"></i>
 					<input type="text" id="correo" name="correo" placeholder="Correo Electrónico" class="input-form"/><br>
 					<i class="fas fa-lock"></i>
-					<input type="text" id="clave" name="clave" placeholder="Contraseña"class="input-form"/><br>
-					<button id="btn-ingresar">INGRESAR</button>
+					<input type="password" id="clave" name="clave" placeholder="Contraseña"class="input-form"/><br>
+					<button  type="submit" id="btn-ingresar">INGRESAR</button>
 					<p>O ingresa con</p>
 					<button type="button" id="btn-fb" class="redes"><i class="fab fa-facebook-f"></i></button>
 					<button type="button" id="btn-gmail" class="redes"><i class="fab fa-google"></i></button>
@@ -32,7 +33,7 @@ export const loginPrincipal=()=>{
 	const div= document.createElement('div')
 	div.innerHTML=viewLogin;
 	
-
+//Inicio de sesión con Gmail
 const btnGmail = div.querySelector('#btn-gmail');
 
 btnGmail.addEventListener('click', (e) => {
@@ -49,6 +50,7 @@ btnGmail.addEventListener('click', (e) => {
             });
 	});
 
+// Inicio de sesión con FB
 const btnFb = div.querySelector('#btn-fb');
 
 btnFb.addEventListener('click', (e) => {
@@ -66,6 +68,23 @@ btnFb.addEventListener('click', (e) => {
 });
 
 
+	//Creamos funcion para ingresar con una cuenta ya creada
+	const btnIngresar=div.querySelector("#form-login");
+	btnIngresar.addEventListener("submit",(e)=>{
+		e.preventDefault();
+		const email=div.querySelector("#correo").value;
+		const password=div.querySelector("#clave").value;
+		logIn(email,password)
+		.then(function (){
+			console.log("credenciales correctos");
+			window.location.hash="#/Inicio";
+
+		})
+		.catch(function (){
+			console.log("credenciales incorrectos");
+		})
+		
+	});
 
 	return div;
 }	
