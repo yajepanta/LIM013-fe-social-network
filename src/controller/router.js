@@ -26,6 +26,6 @@ export const changeView=(hash)=>{
 					container.appendChild(components.perfil());
 					break;
 				}
-
+        
         }
     }

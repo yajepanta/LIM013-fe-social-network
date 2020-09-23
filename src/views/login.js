@@ -22,8 +22,8 @@ export const loginPrincipal=()=>{
 					<input type="password" id="clave" name="clave" placeholder="Contraseña"class="input-form"/><br>
 					<button  type="submit" id="btn-ingresar">INGRESAR</button>
 					<p>O ingresa con</p>
-					<button id="btn-fb" class="redes"><i class="fab fa-facebook-f"></i></button>
-					<button id="btn-gmail" class="redes"><i class="fab fa-google"></i></button>
+					<button type="button" id="btn-fb" class="redes"><i class="fab fa-facebook-f"></i></button>
+					<button type="button" id="btn-gmail" class="redes"><i class="fab fa-google"></i></button>
 					<p>¿Todavia no eres miembro?</p>
 					<a id="nueva-cuenta" href="#">Únete Ahora</a>
 				</form>
@@ -32,6 +32,41 @@ export const loginPrincipal=()=>{
 	</section>`
 	const div= document.createElement('div')
 	div.innerHTML=viewLogin;
+	
+//Inicio de sesión con Gmail
+const btnGmail = div.querySelector('#btn-gmail');
+
+btnGmail.addEventListener('click', (e) => {
+		
+		e.preventDefault();
+		console.log(e);
+        const provider = new firebase.auth.GoogleAuthProvider();
+        firebase.auth().signInWithPopup(provider)
+            .then(result => {
+                alert("Bienvenid@,"+ result.user.displayName);
+			})
+            .catch(error => {
+                console.log(error);
+            });
+	});
+
+// Inicio de sesión con FB
+const btnFb = div.querySelector('#btn-fb');
+
+btnFb.addEventListener('click', (e) => {
+		
+	e.preventDefault();
+	console.log(e);
+	const provider = new firebase.auth.FacebookAuthProvider();
+	firebase.auth().signInWithPopup(provider)
+		.then(result => {
+			alert("Bienvenid@,"+ result.user.displayName);
+		})
+		.catch(error => {
+			console.log(error);
+		});
+});
+
 
 	//Creamos funcion para ingresar con una cuenta ya creada
 	const btnIngresar=div.querySelector("#form-login");
@@ -49,7 +84,7 @@ export const loginPrincipal=()=>{
 			console.log("credenciales incorrectos");
 		})
 		
-
 	});
+
 	return div;
-}
+}	
