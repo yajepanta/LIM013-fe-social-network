@@ -50,6 +50,7 @@ export const loginPrincipal = () => {
           .then(() => {
             console.log('se creo usuario');
           });
+
         window.location.hash = '#/Inicio';
       }).catch((error) => {
         console.log('error de login', error);
@@ -87,7 +88,7 @@ export const loginPrincipal = () => {
       })
       .catch(() => {
         div.querySelector('#messages-error').innerHTML = '⚠️ Correo o clave no son correctos.';
-        console.log('credenciales incorrectos');
+        alert('credenciales incorrectos');
       });
   });
   return div;
