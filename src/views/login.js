@@ -1,7 +1,8 @@
-import { logIn } from '../model/firebase-auth.js';
+import { logIn, logInFb, logInGm } from '../model/firebase-auth.js';
 
 export const loginPrincipal = () => {
   const viewLogin = ` 
+
   <section id="view-login-desktop">
     <div class="imagen-login item-login">
       <img id="img-colegio" src="/img/imagen-login.png">
@@ -20,52 +21,52 @@ export const loginPrincipal = () => {
           <input type="text" id="correo" name="correo" placeholder="Correo Electrónico" class="input-form"/><br>
           <i class="fas fa-lock"></i>
           <input type="password" id="clave" name="clave" placeholder="Contraseña"class="input-form"/><br>
-          <p id="messages-error" class="messages"></p>
           <button  type="submit" id="btn-ingresar">INGRESAR</button>
           <p>O ingresa con</p>
           <button type="button" id="btn-fb" class="redes"><i class="fab fa-facebook-f"></i></button>
           <button type="button" id="btn-gmail" class="redes"><i class="fab fa-google"></i></button>
           <p>¿Todavia no eres miembro?</p>
-          <a id="nueva-cuenta" href="#">Únete Ahora</a>
-          </form>
+          <a id="nueva-cuenta" href="#/Registro">Únete Ahora</a>
+        </form>
       </div>
     </div>
-  </section> `;
+  </section>
+  `;
+
   const div = document.createElement('div');
   div.innerHTML = viewLogin;
-  // Inicio de sesión con Gmail
+
+  /* Inicio de sesión con Gmail */
   const btnGmail = div.querySelector('#btn-gmail');
+
   btnGmail.addEventListener('click', (e) => {
     e.preventDefault();
-    const provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider)
-    .then( result => {
-    alert("Bienvenid@,"+ result.user.displayName);
-			})
-            .catch(error => {
-                console.log(error);
+    logInGm()
+      .then((result) => {
+        window.location.hash = '#/Inicio';
+      })
+      .catch((error) => {
+        console.log(error);
       });
   });
 
-  // Inicio de sesión con FB
-const btnFb = div.querySelector('#btn-fb');
+  /* Inicio de sesión con Facebook */
+  const btnFb = div.querySelector('#btn-fb');
 
-btnFb.addEventListener('click', (e) => {
+  btnFb.addEventListener('click', (e) => {
+    e.preventDefault();
+    logInFb()
+      .then((result) => {
+        window.location.hash = '#/Inicio';
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  });
 
-	e.preventDefault();
-	console.log(e);
-	const provider = new firebase.auth.FacebookAuthProvider();
-	firebase.auth().signInWithPopup(provider)
-		.then(result => {
-			alert("Bienvenid@,"+ result.user.displayName);
-		})
-		.catch(error => {
-			console.log(error);
-		});
-});
-  //  Creamos funcion para ingresar con una cuenta ya creada
+  // Creamos funcion para ingresar con una cuenta ya creada
   const btnIngresar = div.querySelector('#form-login');
-  btnIngresar.addEventListener('submit', (e) => {
+  btnIngresar.addEventListener('submit',(e)=>{
     e.preventDefault();
     const email = div.querySelector('#correo').value;
     const password = div.querySelector('#clave').value;
@@ -80,4 +81,4 @@ btnFb.addEventListener('click', (e) => {
       });
   });
   return div;
-}
+};
