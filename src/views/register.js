@@ -68,7 +68,7 @@ export const registerView = () => {
           window.location.hash = '#/Inicio';
         })
         .catch((error) => {
-          alert(error)
+          alert(error);
         });
     }
   });
@@ -76,8 +76,8 @@ export const registerView = () => {
   return div;
 };
 
-/*         <li>
+/* <li>
           <label for='form-grade'></label>
-          <input type='text' id='form-grade' name='form-grade' placeholder='Indica en qué grado estás'>
+     <input type='text' id='form-grade' name='form-grade' placeholder='Indica en qué grado estás'>
         </li>
          */

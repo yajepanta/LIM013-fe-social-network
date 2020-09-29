@@ -43,6 +43,7 @@ export const loginPrincipal = () => {
     e.preventDefault();
     logInGm()
       .then((result) => {
+        alert(result);
         window.location.hash = '#/Inicio';
       })
       .catch((error) => {
@@ -57,16 +58,17 @@ export const loginPrincipal = () => {
     e.preventDefault();
     logInFb()
       .then((result) => {
+        alert(result);
         window.location.hash = '#/Inicio';
       })
       .catch((error) => {
-        console.log(error);
+        alert(error);
       });
   });
 
   // Creamos funcion para ingresar con una cuenta ya creada
   const btnIngresar = div.querySelector('#form-login');
-  btnIngresar.addEventListener('submit',(e)=>{
+  btnIngresar.addEventListener('submit', (e) => {
     e.preventDefault();
     const email = div.querySelector('#correo').value;
     const password = div.querySelector('#clave').value;
@@ -77,7 +79,7 @@ export const loginPrincipal = () => {
       })
       .catch(() => {
         div.querySelector('#messages-error').innerHTML = '⚠️ Correo o clave no son correctos.';
-        console.log('credenciales incorrectos');
+        alert('credenciales incorrectos');
       });
   });
   return div;
