@@ -6,7 +6,7 @@ export const changeView = (hash) => {
   container.innerHTML = '';
   switch (hash) {
     case '':
-    case '#/Cerrar': {
+    case '#/': {
       headerElem.classList.remove('mostrar');
       container.appendChild(components.login());
       break;

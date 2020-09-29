@@ -1,4 +1,6 @@
-import { register } from '../model/firebase-auth.js';
+import { register, logIn } from '../model/firebase-auth.js';
+
+import { createUser } from '../model/firebase-user.js';
 
 /* const newUser = (name, lastName, email, pass) => {
   register(email, pass)
@@ -6,12 +8,29 @@ import { register } from '../model/firebase-auth.js';
 }; */
 
 export const registerView = () => {
+  const registerUser = (name, email, pass) => {
+    register(email, pass)
+      .then((result) => {
+        console.log(result);
+        createUser(result.user.uid, name, 'img/perfil.png', 'primaria/secundaria', email, 'Compartiendo conocimiento')
+          .then(() => {
+            console.log('se creo el usuario');
+          });
+        logIn(email, pass)
+          .then(() => {
+            window.location.hash = '#/Inicio';
+          });
+      })
+      .catch(() => {
+        console.log('cuenta ya existe');
+      });
+  };
   const registerTmplt = `
   <section id='section-register'>
     <div>
       LOGO
     </div>
-    <form> <!-- action='/action_page.php' -->
+    <form id='form-register'> <!-- action='/action_page.php' -->
       <ul class='form-flex'>
         <li>
           <label for='form-name'></label>
@@ -34,7 +53,7 @@ export const registerView = () => {
           <input type='text' id='form-pass-check' name='form-pass-check' placeholder='Vuelve a escribir la contraseña'>
         </li>
         <li>
-          <input type='button' id='form-register' class='button-post' value='Registrarte'>
+          <button  type="submit" id="btn-register">REGISTRARTE</button>
         </li>  
       </ul> 
     </form>
@@ -44,13 +63,13 @@ export const registerView = () => {
 
   /* Crear nueva cuenta de usuario */
   const btnRegister = div.querySelector('#form-register');
-  btnRegister.addEventListener('click', (e) => {
+  btnRegister.addEventListener('submit', (e) => {
     e.preventDefault();
-    const name = document.querySelector('#form-name').value;
-    const lastName = document.querySelector('#form-lastname').value;
-    const email = document.querySelector('#form-email').value;
-    const pass = document.querySelector('#form-pass').value;
-    const passCheck = document.querySelector('#form-pass-check').value;
+    const name = div.querySelector('#form-name').value;
+    const lastName = div.querySelector('#form-lastname').value;
+    const email = div.querySelector('#form-email').value;
+    const pass = div.querySelector('#form-pass').value;
+    const passCheck = div.querySelector('#form-pass-check').value;
     if (name === '') {
       alert('name');
     } else if (lastName === '') {
@@ -76,8 +95,10 @@ export const registerView = () => {
   return div;
 };
 
+
 /* <li>
           <label for='form-grade'></label>
      <input type='text' id='form-grade' name='form-grade' placeholder='Indica en qué grado estás'>
         </li>
          */
+
