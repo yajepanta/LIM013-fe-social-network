@@ -1,4 +1,4 @@
-import { logIn } from '../model/firebase-auth.js';
+import { logIn, logInFb, logInGm } from '../model/firebase-auth.js';
 
 export const loginPrincipal = () => {
   const viewLogin = ` 
@@ -26,7 +26,7 @@ export const loginPrincipal = () => {
           <button type="button" id="btn-fb" class="redes"><i class="fab fa-facebook-f"></i></button>
           <button type="button" id="btn-gmail" class="redes"><i class="fab fa-google"></i></button>
           <p>¿Todavia no eres miembro?</p>
-          <a id="nueva-cuenta" href="#">Únete Ahora</a>
+          <a id="nueva-cuenta" href="#/Registro">Únete Ahora</a>
         </form>
       </div>
     </div>
@@ -36,20 +36,17 @@ export const loginPrincipal = () => {
   const div = document.createElement('div');
   div.innerHTML = viewLogin;
 
+
   /* Inicio de sesión con Gmail */
   const btnGmail = div.querySelector('#btn-gmail');
 
   btnGmail.addEventListener('click', (e) => {
     e.preventDefault();
-    console.log(e);
-
-    const provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider)
-      .then(result => {
-        alert(result.user.displayName);
+    logInGm()
+      .then((result) => {
         window.location.hash = '#/Inicio';
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   });
@@ -58,11 +55,8 @@ export const loginPrincipal = () => {
   const btnFb = div.querySelector('#btn-fb');
 
   btnFb.addEventListener('click', (e) => {
-
     e.preventDefault();
-    console.log(e);
-    const provider = new firebase.auth.FacebookAuthProvider();
-    firebase.auth().signInWithPopup(provider)
+    logInFb()
       .then((result) => {
         window.location.hash = '#/Inicio';
       })
@@ -72,20 +66,20 @@ export const loginPrincipal = () => {
   });
 
   // Creamos funcion para ingresar con una cuenta ya creada
-  const btnIngresar=div.querySelector('#form-login');
+  const btnIngresar = div.querySelector('#form-login');
   btnIngresar.addEventListener('submit',(e)=>{
     e.preventDefault();
     const email = div.querySelector('#correo').value;
     const password = div.querySelector('#clave').value;
     logIn(email, password)
-      .then(function () {
+      .then(() => {
         console.log('credenciales correctos');
-        window.location.hash='#/Inicio';
+        window.location.hash = '#/Inicio';
       })
-      .catch(function (){
-			console.log('credenciales incorrectos');
-      });	
-	});
+      .catch(() => {
+        console.log('credenciales incorrectos');
+      });
+  });
 
   return div;
 };
