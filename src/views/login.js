@@ -20,6 +20,7 @@ export const loginPrincipal = () => {
           <input type="text" id="correo" name="correo" placeholder="Correo Electrónico" class="input-form"/><br>
           <i class="fas fa-lock"></i>
           <input type="password" id="clave" name="clave" placeholder="Contraseña"class="input-form"/><br>
+          <p id="messages-error" class="messages"></p>
           <button  type="submit" id="btn-ingresar">INGRESAR</button>
           <p>O ingresa con</p>
           <button type="button" id="btn-fb" class="redes"><i class="fab fa-facebook-f"></i></button>
@@ -69,12 +70,12 @@ btnFb.addEventListener('click', (e) => {
     const email = div.querySelector('#correo').value;
     const password = div.querySelector('#clave').value;
     logIn(email, password)
-      .then((resultado) => {
-        console.log(resultado);
-        console.log('credenciales correctos');
+      .then(() => {
+        div.querySelector('#messages-error').innerHTML = '';
         window.location.hash = '#/Inicio';
       })
       .catch(() => {
+        div.querySelector('#messages-error').innerHTML = '⚠️ Correo o clave no son correctos.';
         console.log('credenciales incorrectos');
       });
   });
