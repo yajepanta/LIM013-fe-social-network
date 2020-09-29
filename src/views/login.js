@@ -1,5 +1,7 @@
 import { logIn, logInFb, logInGm } from '../model/firebase-auth.js';
 
+import { createUser } from '../model/firebase-user.js';
+
 export const loginPrincipal = () => {
   const viewLogin = ` 
 
@@ -18,9 +20,10 @@ export const loginPrincipal = () => {
       <div id="formulario-principal">
         <form id="form-login">
           <i class="fas fa-envelope-square"></i>
-          <input type="text" id="correo" name="correo" placeholder="Correo Electrónico" class="input-form"/><br>
+          <input type="text" id="correo" name="correo" placeholder="Correo Electrónico" class="input-form" required/><br>
           <i class="fas fa-lock"></i>
-          <input type="password" id="clave" name="clave" placeholder="Contraseña"class="input-form"/><br>
+          <input type="password" id="clave" name="clave" placeholder="Contraseña"class="input-form" required/><br>
+          <p id='messages-error'></p>
           <button  type="submit" id="btn-ingresar">INGRESAR</button>
           <p>O ingresa con</p>
           <button type="button" id="btn-fb" class="redes"><i class="fab fa-facebook-f"></i></button>
@@ -43,10 +46,13 @@ export const loginPrincipal = () => {
     e.preventDefault();
     logInGm()
       .then((result) => {
+        createUser(result.user.uid, result.user.displayName, result.user.photoURL, 'primaria/secundaria', result.user.email, 'Compartiendo conocimiento')
+          .then(() => {
+            console.log('se creo usuario');
+          });
         window.location.hash = '#/Inicio';
-      })
-      .catch((error) => {
-        console.log(error);
+      }).catch((error) => {
+        console.log('error de login', error);
       });
   });
 
@@ -57,16 +63,20 @@ export const loginPrincipal = () => {
     e.preventDefault();
     logInFb()
       .then((result) => {
+        createUser(result.user.uid, result.user.displayName, result.user.photoURL, 'primaria/secundaria', result.user.email, 'Compartiendo conocimiento')
+          .then(() => {
+            console.log('se creo usuario');
+          });
         window.location.hash = '#/Inicio';
       })
       .catch((error) => {
-        console.log(error);
+        console.log('error login', error);
       });
   });
 
   // Creamos funcion para ingresar con una cuenta ya creada
   const btnIngresar = div.querySelector('#form-login');
-  btnIngresar.addEventListener('submit',(e)=>{
+  btnIngresar.addEventListener('submit', (e) => {
     e.preventDefault();
     const email = div.querySelector('#correo').value;
     const password = div.querySelector('#clave').value;
