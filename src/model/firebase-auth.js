@@ -15,3 +15,4 @@ export const logInGm = () => {
 export const register = (email, pass) => {
   return firebase.auth().createUserWithEmailAndPassword(email, pass);
 };
+export const logOut = () => firebase.auth().signOut();

@@ -36,7 +36,6 @@ export const loginPrincipal = () => {
   const div = document.createElement('div');
   div.innerHTML = viewLogin;
 
-
   /* Inicio de sesión con Gmail */
   const btnGmail = div.querySelector('#btn-gmail');
 
@@ -73,13 +72,13 @@ export const loginPrincipal = () => {
     const password = div.querySelector('#clave').value;
     logIn(email, password)
       .then(() => {
-        console.log('credenciales correctos');
+        div.querySelector('#messages-error').innerHTML = '';
         window.location.hash = '#/Inicio';
       })
       .catch(() => {
+        div.querySelector('#messages-error').innerHTML = '⚠️ Correo o clave no son correctos.';
         console.log('credenciales incorrectos');
       });
   });
-
   return div;
 };

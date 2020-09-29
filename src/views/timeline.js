@@ -1,3 +1,5 @@
+import { logOut } from '../model/firebase-auth.js';
+
 export const timelineView = () => {
   const timeline = `
     <!-- PERFIL CON OPCIÓN PARA POSTEAR -->
@@ -53,5 +55,15 @@ export const timelineView = () => {
   </section> `;
   const div = document.createElement('div');
   div.innerHTML = timeline;
+  // DOM para el cerrar sesion
+  const btnLogOut = document.querySelector('#btn-logout');
+  btnLogOut.addEventListener('click', () => {
+    logOut()
+      .then(() => {
+        console.log('salio de logeo');
+        window.location.hash = '#/';
+        document.querySelector('#nav').classList.remove('mostrar');
+      });
+  });
   return div;
 };
