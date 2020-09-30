@@ -27,10 +27,11 @@ export const registerView = () => {
   };
   const registerTmplt = `
   <section id='section-register'>
-    <div>
-      LOGO
-    </div>
-    <form id='form-register'> <!-- action='/action_page.php' -->
+    <div class="saludo">
+        <h1>Registrarte</h1>
+        <p>Es rápido y fácil.</p>
+      </div>
+    <form> <!-- action='/action_page.php' -->
       <ul class='form-flex'>
         <li>
           <label for='form-name'></label>
@@ -57,7 +58,7 @@ export const registerView = () => {
         </li>  
       </ul> 
     </form>
-</section> `;
+  </section> `;
   const div = document.createElement('div');
   div.innerHTML = registerTmplt;
 
