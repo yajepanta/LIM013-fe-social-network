@@ -81,14 +81,7 @@ export const registerView = () => {
     } else if (pass !== passCheck) {
       alert('pass diferente');
     } else {
-      register(email, pass)
-        .then((result) => {
-          console.log(result);
-          window.location.hash = '#/Inicio';
-        })
-        .catch((error) => {
-          alert(error);
-        });
+      registerUser(email, pass);
     }
   });
 
