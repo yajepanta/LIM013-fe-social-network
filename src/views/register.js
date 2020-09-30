@@ -81,7 +81,7 @@ export const registerView = () => {
     } else if (pass !== passCheck) {
       alert('pass diferente');
     } else {
-      registerUser(email, pass);
+      registerUser(name, email, pass);
     }
   });
 
