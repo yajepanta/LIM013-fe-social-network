@@ -8,9 +8,10 @@ import { register } from '../model/firebase-auth.js';
 export const registerView = () => {
   const registerTmplt = `
   <section id='section-register'>
-    <div>
-      LOGO
-    </div>
+    <div class="saludo">
+        <h1>Registrarte</h1>
+        <p>Es rápido y fácil.</p>
+      </div>
     <form> <!-- action='/action_page.php' -->
       <ul class='form-flex'>
         <li>
@@ -38,7 +39,7 @@ export const registerView = () => {
         </li>  
       </ul> 
     </form>
-</section> `;
+  </section> `;
   const div = document.createElement('div');
   div.innerHTML = registerTmplt;
 

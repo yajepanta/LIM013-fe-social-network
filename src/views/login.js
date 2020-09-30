@@ -1,19 +1,23 @@
-import { logIn, logInFb, logInGm } from '../model/firebase-auth.js';
-
-export const loginPrincipal = () => {
-  const viewLogin = ` 
-
-  <section id="view-login-desktop">
-    <div class="imagen-login item-login">
+/* <div class="imagen-login item-login">
       <img id="img-colegio" src="/img/imagen-login.png">
-    </div> 
+    </div>
     <div class="formulario-login item-login">
       <div class="saludo">
         <h1>¡Bienvenido a InnovaSocial!</h1>
         <p>En este lugar podras comunicarte y compartir recursos</p>
       </div>
-      <div class="imagen-celular"> 
+      <div class="imagen-celular">
         <img id="img-celular" src="/img/fondo-celular.png">
+      </div> */
+import { logIn, logInFb, logInGm } from '../model/firebase-auth.js';
+
+export const loginPrincipal = () => {
+  const viewLogin = ` 
+
+  <section id="view-login-desktop"> 
+      <div class="saludo">
+        <h1>¡Bienvenido a InnovaSocial!</h1>
+        <p>En este lugar podrás comunicarte y compartir recursos</p>
       </div>
       <div id="formulario-principal">
         <form id="form-login">
