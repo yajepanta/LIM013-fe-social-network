@@ -100,7 +100,6 @@ export const loginPrincipal = () => {
       })
       .catch(() => {
         div.querySelector('#messages-error').innerHTML = '⚠️ Correo o clave no son correctos.';
-        alert('credenciales incorrectos');
       });
   });
   return div;
