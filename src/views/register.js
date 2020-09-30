@@ -54,7 +54,7 @@ export const registerView = () => {
           <input type='text' id='form-pass-check' name='form-pass-check' placeholder='Vuelve a escribir la contraseña'>
         </li>
         <li>
-          <button  type="submit" id="btn-register">REGISTRARTE</button>
+          <button type="submit" id='btn-register' class='button-post'>REGISTRARTE</button>
         </li>  
       </ul> 
     </form>
@@ -63,7 +63,7 @@ export const registerView = () => {
   div.innerHTML = registerTmplt;
 
   /* Crear nueva cuenta de usuario */
-  const btnRegister = div.querySelector('#form-register');
+  const btnRegister = div.querySelector('#btn-register');
   btnRegister.addEventListener('submit', (e) => {
     e.preventDefault();
     const name = div.querySelector('#form-name').value;
@@ -95,4 +95,3 @@ export const registerView = () => {
      <input type='text' id='form-grade' name='form-grade' placeholder='Indica en qué grado estás'>
         </li>
          */
-
