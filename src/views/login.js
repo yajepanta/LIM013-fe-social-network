@@ -4,6 +4,7 @@ import { createUser, dataUser } from '../model/firebase-user.js';
 
 export const loginPrincipal = () => {
   const viewLogin = ` 
+
   <section id="view-login-desktop">
     <div class="imagen-login item-login">
       <img id="img-colegio" src="/img/imagen-login.png">
@@ -50,7 +51,7 @@ export const loginPrincipal = () => {
             if (doc.exists) {
               console.log('Usuario ya existe no es necesario crear uno nuevo');
             } else {
-              createUser(result.user.uid, result.user.displayName, result.user.photoURL, 'primaria/secundaria', result.user.email, 'Compartiendo conocimiento')
+              createUser(result.user.uid, result.user.displayName, result.user.photoURL, 'grado', result.user.email, 'primaria/secundaria', 'sede')
                 .then(() => {
                   console.log('se creo usuario');
                 });
@@ -73,7 +74,7 @@ export const loginPrincipal = () => {
             if (doc.exists) {
               console.log('Usuario ya existe no es necesario crear uno nuevo');
             } else {
-              createUser(result.user.uid, result.user.displayName, result.user.photoURL, 'primaria/secundaria', result.user.email, 'Compartiendo conocimiento')
+              createUser(result.user.uid, result.user.displayName, result.user.photoURL, 'grado', result.user.email, 'primaria/secundaria', 'sede')
                 .then(() => {
                   console.log('se creo usuario');
                 });
@@ -92,6 +93,7 @@ export const loginPrincipal = () => {
     e.preventDefault();
     const email = div.querySelector('#correo').value;
     const password = div.querySelector('#clave').value;
+    // validacion de datos
     logIn(email, password)
       .then(() => {
         div.querySelector('#messages-error').innerHTML = '';
