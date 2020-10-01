@@ -7,7 +7,6 @@ export const changeView = (hash) => {
   container.innerHTML = '';
   switch (hash) {
     case '': {
-      aside.classList.remove('hidden');
       container.appendChild(components.login());
       break;
     }

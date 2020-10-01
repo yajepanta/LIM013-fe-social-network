@@ -3,10 +3,10 @@
 }
 
 #view-login-desktop{
-		display: flex;
-		width: 100%;
-		flex-wrap: wrap;
-		justify-content: center;
+	display: flex;
+	width: 100%;
+	flex-wrap: wrap;
+	justify-content: center;
 }
 .item-login{
     width: 50%;
@@ -25,20 +25,20 @@
 }
 .formulario-login h1{
 	color: #007cba;
-		font-size: 40px;
-		margin-bottom: 3%;
+	font-size: 40px;
+	margin-bottom: 3%;
 }
 .formulario-login p{
 	color: #065FA2;
-		font-size: 20px;
-		margin-bottom: 6%;
+	font-size: 20px;
+	margin-bottom: 6%;
 }
 .input-form{
-		font-size: 18px;
-		margin-bottom: 12%;
-		margin-left: 6px;
-		border:solid 2px #41A530;
-		border-radius: 4px;
+	font-size: 18px;
+	margin-bottom: 12%;
+	margin-left: 6px;
+	border:solid 2px #41A530;
+	border-radius: 4px;
 }
 .formulario-login i{
 	font-size: x-large;
@@ -93,6 +93,10 @@
 #nueva-cuenta{
 	font-size: 22px;
 	color: #f7971c;
+	font-weight: bold;
+}
+#messages-error{
+	color:#F32B17;
 	font-weight: bold;
 }
 
