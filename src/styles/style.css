@@ -3,6 +3,7 @@
 @import url(menu.css);
 @import url(timeline.css);
 @import url(register.css);
+@import url('https://fonts.googleapis.com/css2?family=Piazzolla:wght@200&display=swap');
 
 * {
     margin: 0;
@@ -10,7 +11,7 @@
 
 body {
     margin: 0;
-    font-family: "Helvetica", sans-serif;
+    font-family: 'Piazzolla', serif;
     font-size: 17px;
     background: white;
     color:#007cba;
