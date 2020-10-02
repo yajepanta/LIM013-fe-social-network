@@ -1,6 +1,7 @@
 import { components } from '../views/index.js';
 //  Funcion de cambios de rutas
 export const changeView = (hash) => {
+  window.location.hash = hash;
   const headerElem = document.querySelector('#nav');
   const container = document.getElementById('container');
   container.innerHTML = '';
