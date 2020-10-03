@@ -49,20 +49,20 @@
 	color: #41A530;
 }
 #btn-ingresar, #btn-register, #btn-return{
-	margin-bottom: 6%;
-	padding: 15px 45px;
-	font-size: 15px;
-	cursor: pointer;
-	text-align: center;
-	text-decoration: none;
-	outline: none;
+  margin-bottom: 6%;
+  padding: 15px 45px;
+  font-size: 15px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
   color: #fff;
   background-color: #007cba;
   border: none;
   border-radius: 15px;
   box-shadow: 0 5px #999;
 }
-#btn-ingresar:hover,#btn-return:hover {
+#btn-ingresar:hover,#btn-return:hover,#btn-register:hover {
 	background-color: #065FA2;
 }
 #btn-ingresar:active, #btn-return:active{

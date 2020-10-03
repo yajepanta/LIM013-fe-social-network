@@ -12,7 +12,7 @@ export const registerView = () => {
       <div class='cont-avatar item-form'>
         <img id="logo-register" src='/img/logo.png'>
         <h1>REGISTRATE AHORA</h1>
-        <img id="avatar" src='/img/avatar-personas.JPG'>
+        <img id="avatar" src='/img/estudiante.JPG'>
       </div>
       <form id='form-register' class='item-form'>
         <div class="div-input">
@@ -36,9 +36,9 @@ export const registerView = () => {
           <input type='password' id='form-pass-check' name='form-pass-check' placeholder='Contraseña'required>
         </div>
           <p id='msg-error' class='error'></p>
+          <a href='#/' id="btn-return">◀ ATRAS</a>
           <button  type="submit" id="btn-register">REGISTRAR</button>
       </form>
-      <a href='#/' id="btn-return">◀ ATRAS</a>
     </section>
 </section> `;
   const div = document.createElement('div');
