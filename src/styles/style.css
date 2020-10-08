@@ -3,17 +3,21 @@
 @import url(menu.css);
 @import url(timeline.css);
 @import url(register.css);
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
 * {
     margin: 0;
+    font-family: 'Montserrat', sans-serif;
 }
 
 body {
     margin: 0;
-    font-family: "Helvetica", sans-serif;
-    font-size: 17px;
-    background: white;
-    color:#007cba;
+    font-size: 100%;
+    background: rgb(255,255,255);
+    background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(242,242,242,1) 53%, rgba(227,223,223,1) 72%, rgba(208,206,206,1) 100%);
+
+
+color:#007cba;
 }
 
 main {
@@ -31,3 +35,17 @@ main {
         flex-direction: row;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

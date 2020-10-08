@@ -5,143 +5,174 @@
     align-items: center; 
   }
 
-  /* Datos del perfil */
+  /* Tarjeta para datos de perfil y posts */
+.card {
+    background-color: white;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
+    border-radius: 25px;
+    width: 80vw;
+    min-height:120px;
+    margin-top: 15px;
+    padding: 10px;
+    display: flex;
+}
+
+.card-header {
+  background-color: #007cba;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: inherit;
+  height: 55px;
+  font-weight: bold;
+  border-radius: 25px; 
+}
 
 #profile {
-    display:flex;
-    margin-top: 10px;
-}
-
-#profile > img {
-    height: 100px;
-    width: 100px;
-    border-radius: 50%;
-}
-
-/* Cuadro para postear */
-
-.post {
-    margin-top: 15px;
-    background-color:lightgray;
-    width: 320px;
-    height:200px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
     align-items: center;
-    border-radius: 8px;
-    font-size: 12px;
-}
+  }
+	#profile ul {
+    list-style-type: none;
+    border-left: 3px solid #80ba33;
+    margin-left: 15px;
+    padding-left: 15px;
+  }
+  #profile ul li {
+    padding-bottom: 10px;
+  }
+	#profile > img {
+			height: 100px;
+      width: 100px;	
+	}
 
-#post-text {
-    width: 280px;
-    height: 80px;
-    border-radius: 8px;
-    border: 5px solid gray;
+.rounded {
+	border-radius: 30%;
+}	
+
+/* Desplegable botón privacidad */
+.dropbtn {
+  background-color: #007cba;
+  color: white;
+  border: none;
+}
+  
+  /* Div dentro del botón privacidad */
+.dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  /* Hidden */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    /* min-width: 30px; */
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+ /*    z-index: 1; */
+  }
+  
+  /* Links inside the dropdown */
+  .dropdown-content a {
+    color: black;
+    padding: 12px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  /* Change color of dropdown links on hover */
+  .dropdown-content a:hover {
+    background-color: #ddd;
+  }
+  
+  /* Show the dropdown menu on hover */
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  /* Change the background color of the dropdown button when the dropdown content is shown */
+/*   .dropdown:hover .dropbtn {background-color: #3e8e41;} */
+  
+/* Cuadro para postear */
+.post {
+    flex-direction: column;
+    align-items: center;
+    font-size: 12px;   
 }
 
 textarea {
     resize: none;
-    color:#007cba;
+    width: 70vw;
+    height: 80px;
+    padding: 10px;
+    border-radius: 25px;
+    border: 1px solid lightgray;
+    color: gray;
+    margin: 10px 0 10px 0;
   }
 
-.post-buttons{
+.card-footer{
     width: 280px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;   
 }  
 
-.button-post {
-    background-color: #41A530;
+.post-btn {
+    background-color: #007cba;
     color: white;
     border: none;
     border-radius: 20px;
-    padding: 10px;
+    padding: 10px 15px;
+}
+
+.post-btn:hover, .dropbtn:hover, .dropdown:hover {
+    background:  #80ba33;
 }
 
 /* Timeline: Ya posteados */
 
-.posted {
-    margin-top: 15px;
-    background-color: lightgray;
-    width: 320px;
-    height:150px;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
+.post-profile-picture{
+    width: 40px;
+		height: 40px;
+		margin: 0 15px 0 30px;
 }
-
-.post-author {
-    background-color: #41A530;
-    display: flex;
-    flex-direction: column;
-    width: 290px;
-    height: 35px;
-    border-radius: 8px 8px 0px 0px; 
-    justify-content: center;
-    padding-left: 30px;
-}
-
-.post-text-posted {
-    width: 300px;
-    height: 60px;
-    border-radius: 0px 0px 3px 3px;
-}
-
+/* opcional. ver como retirarlo */
+.white {
+  background-color: white;
+  }
 
 @media screen and (min-width: 890px)  {
 
     #timelineView {
         display: grid;
-        grid-template-columns: auto 350px auto auto;
-        column-gap: 25px;
+        grid-template-columns: auto 350px 500px auto ;
+        column-gap: 40px;
       }
 
     #profile {
         display: flex;
         margin: 0;
-        padding: 10px;
         justify-content: flex-end;
-        border: 5px solid lightgray;
-        border-radius: 5px;
         grid-column: 2;
+        width: 350px;
+        min-height:100px;
       }  
 
-    .post {
-        margin-top: 15px;
-        background-color: lightgray;
+    .card {
+        background-color: white;
         width: 500px;
-        height:200px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-        align-items: center;
-        grid-column: 3;
-     }  
-     #post-text {
-        width: 470px;
-        height: 80px;
+        min-height:200px;
     }
-    .posted {
-        margin-top: 15px;
-        background-color: lightgray;
-        width: 500px;
-        height:150px;
-        border-radius: 8px;
+
+    textarea {
+      width: 450px;
+  }
+    #timeline {
         grid-column: 3;
     }
-    .post-author {
-        width: 470px;
-        height: 35px;
-        justify-content: center;
-    }
-    .post-text-posted {
-        width: 492px;
-        height: 60px;      
-    }
+
     
     
 
