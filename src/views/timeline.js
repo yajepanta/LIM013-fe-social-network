@@ -3,7 +3,7 @@ import { logOut } from '../model/firebase-auth.js';
 import { dataUser } from '../model/firebase-user.js';
 
 export const timelineView = () => {
-  /* const user = firebase.auth().currentUser; */
+/*   const user = firebase.auth().currentUser.uid; */
   const timeline = `
     <!-- PERFIL CON OPCIÓN PARA POSTEAR -->
   <section id="timelineView">
@@ -84,20 +84,23 @@ export const timelineView = () => {
   </section> `;
   const div = document.createElement('div');
   div.innerHTML = timeline;
-  /* const userName = div.querySelector('.name');
-  const userGrade = div.querySelector('.grade');
-  const userDescription = div.querySelector('.description');
-  const userPhoto = div.querySelector('#photo-profile');
-  // Llenado con los datos del usuario
-  dataUser(user.uid)
+  const name = div.querySelector('.name');
+  const grade = div.querySelector('.grade');
+  const description = div.querySelector('.description');
+  const photo = div.querySelector('#photo-profile');
+
+/*   // Llenado con los datos del usuario
+  dataUser(user)
     .then((docUser) => {
-      userName.innerHTML = docUser.data().name;
-      userGrade.innerHTML = docUser.data().grade;
-      userDescription.innerHTML = docUser.data().description;
-      userPhoto.src = docUser.data().photo;
+      console.log(user);
+      name.innerHTML = docUser.data().name;
+      grade.innerHTML = docUser.data().grade;
+      description.innerHTML = docUser.data().description;
+      photo.src = docUser.data().photo;
     });
-  // DOM para el cerrar sesion
-  const btnLogOut = document.querySelector('#btn-logout');
+
+  // Cerrar sesión
+  const btnLogOut = document.getElementById('btn-logout');
   btnLogOut.addEventListener('click', () => {
     logOut()
       .then(() => {

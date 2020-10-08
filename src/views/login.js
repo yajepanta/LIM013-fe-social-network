@@ -1,6 +1,6 @@
 import { logIn, logInFb, logInGm } from '../model/firebase-auth.js';
 
-import { createUser, dataUser } from '../model/firebase-user.js';
+import { createUser } from '../model/firebase-user.js';
 
 export const loginPrincipal = () => {
   const viewLogin = ` 
@@ -38,22 +38,28 @@ export const loginPrincipal = () => {
     e.preventDefault();
     logInGm()
       .then((result) => {
-        dataUser(result.user.uid)
-          .then((doc) => {
-            if (doc.exists) {
-              console.log('Usuario ya existe no es necesario crear uno nuevo');
-            } else {
-              createUser(result.user.uid, result.user.displayName, result.user.photoURL, 'primaria/secundaria', result.user.email, 'Compartiendo conocimiento')
-                .then(() => {
-                  console.log('se creo usuario');
-                });
-            }
+        console.log(result);
+        if (result.additionalUserInfo.isNewUser === true) {
+          createUser(
+            result.user.providerData[0].uid,
+            result.user.providerData[0].displayName,
+            result.user.providerData[0].email,
+            result.user.providerData[0].photoURL,
+            '5to de primaria',
+            'Compartiendo conocimiento',
+          ).then(() => {
+            console.log('Se creo usuario');
+            window.location.hash = '#/Inicio';
           });
-        window.location.hash = '#/Inicio';
-      }).catch((error) => {
-        console.log('error de login', error);
+        } else {
+          console.log('Usuario ya existe, no es necesario crear uno nuevo. Ir a mi perfil');
+        }
+      })
+      .catch((error) => {
+        console.log('error login', error);
       });
   });
+
   /* Inicio de sesión con Facebook */
   const btnFb = div.querySelector('#btn-fb');
 
@@ -61,25 +67,31 @@ export const loginPrincipal = () => {
     e.preventDefault();
     logInFb()
       .then((result) => {
-        dataUser(result.user.uid)
-          .then((doc) => {
-            if (doc.exists) {
-              console.log('Usuario ya existe no es necesario crear uno nuevo');
-            } else {
-              createUser(result.user.uid, result.user.displayName, result.user.photoURL, 'primaria/secundaria', result.user.email, 'Compartiendo conocimiento')
-                .then(() => {
-                  console.log('se creo usuario');
-                });
-            }
+        console.log(result);
+        if (result.additionalUserInfo.isNewUser === true) {
+          createUser(
+            /* Esta bien acceder de esta forma? o Es preferible almacenar esa ruta
+            al array? */
+            result.user.providerData[0].uid,
+            result.user.providerData[0].displayName,
+            result.user.providerData[0].email,
+            result.user.providerData[0].photoURL,
+            '5to de primaria',
+            'Compartiendo conocimiento',
+          ).then(() => {
+            console.log('Se creo usuario');
+            window.location.hash = '#/Inicio';
           });
-        window.location.hash = '#/Inicio';
+        } else {
+          console.log('Usuario ya existe, no es necesario crear uno nuevo');
+        }
       })
       .catch((error) => {
         console.log('error login', error);
       });
   });
 
-  // Creamos funcion para ingresar con una cuenta ya creada
+  // Creamos función para ingresar con una cuenta ya creada
   const btnIngresar = div.querySelector('#form-login');
   btnIngresar.addEventListener('submit', (e) => {
     e.preventDefault();

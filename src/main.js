@@ -23,3 +23,5 @@ const firebaseConfig = {
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+/* Almacenamos el método firestore */
+
