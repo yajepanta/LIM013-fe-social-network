@@ -10,9 +10,10 @@ export const timelineView = () => {
     <section id="profile" class="card">
       <img src="img/perfil.jpg" id='photo-profile' class='rounded' alt="profile-picture">
       <ul class="profile-data">
-        <li class="name"><i class="fas fa-id-card"></i> Profesora</li>
-        <li class="grade"><i class="fas fa-graduation-cap"></i> 1ro de secundaria</li>
-        <li class="description"><i class="fas fa-info-circle"></i> Compartiendo conocimiento</li>
+        <li class="name"></li>
+        <li class="level"></li>
+        <li class="grade"></li>
+        <li class="campus"></li>
       </ul>
     </section>
 
@@ -84,19 +85,19 @@ export const timelineView = () => {
   </section> `;
   const div = document.createElement('div');
   div.innerHTML = timeline;
-  const name = div.querySelector('.name');
-  const grade = div.querySelector('.grade');
-  const description = div.querySelector('.description');
-  const photo = div.querySelector('#photo-profile');
-
-// Llenado con los datos del usuario
-  dataUser(user)
+  const userName = div.querySelector('.name');
+  const userGrade = div.querySelector('.grade');
+  const userLevel = div.querySelector('.level');
+  const userPhoto = div.querySelector('#photo-profile');
+  const userCampus = div.querySelector('.campus');
+  // Llenado con los datos del usuario
+  dataUser(user.uid)
     .then((docUser) => {
-      console.log(user);
-      name.innerHTML = docUser.data().name;
-      grade.innerHTML = docUser.data().grade;
-      description.innerHTML = docUser.data().description;
-      photo.src = docUser.data().photo;
+      userName.innerHTML = docUser.data().name;
+      userGrade.innerHTML = docUser.data().grade;
+      userLevel.innerHTML = docUser.data().level;
+      userCampus.innerHTML = docUser.data().campus;
+      userPhoto.src = docUser.data().photo;
     });
 
   // Cerrar sesión

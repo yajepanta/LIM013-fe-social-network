@@ -4,17 +4,25 @@ import { createUser, dataUser } from '../model/firebase-user.js';
 
 export const loginPrincipal = () => {
   const viewLogin = ` 
-  <section id="view-login-desktop"> 
+
+  <section id="view-login-desktop">
+    <div class="imagen-login item-login">
+      <img id="img-colegio" src="/img/imagen-login.png">
+    </div> 
+    <div class="formulario-login item-login">
       <div class="saludo">
         <h1>¡Bienvenido a InnovaSocial!</h1>
-        <p>En este lugar podrás comunicarte y compartir recursos</p>
+        <p>En este lugar podras comunicarte y compartir recursos</p>
+      </div>
+      <div class="imagen-celular"> 
+        <img id="img-celular" src="/img/fondo-celular.png">
       </div>
       <div id="formulario-principal">
         <form id="form-login">
           <i class="fas fa-envelope-square"></i>
-          <input type="text" id="correo" name="correo" placeholder="Correo Electrónico" class="input-form" required/><br>
+          <input type="text" id="correo" name="correo" placeholder="Correo Electrónico" class="input-form" autocomplete='off' required /><br>
           <i class="fas fa-lock"></i>
-          <input type="password" id="clave" name="clave" placeholder="Contraseña"class="input-form" required/><br>
+          <input type="password" id="clave" name="clave" placeholder="Contraseña"class="input-form" autocomplete='off' required/><br>
           <p id='messages-error'></p>
           <button  type="submit" id="btn-ingresar">INGRESAR</button>
           <p>O ingresa con</p>
@@ -42,14 +50,15 @@ export const loginPrincipal = () => {
           .then((doc) => {
             if (doc.exists) {
               console.log('Usuario ya existe no es necesario crear uno nuevo');
+              window.location.hash = '#/Inicio';
             } else {
-              createUser(result.user.uid, result.user.displayName, result.user.photoURL, 'primaria/secundaria', result.user.email, 'Compartiendo conocimiento')
+              createUser(result.user.uid, result.user.displayName, result.user.photoURL, 'grado', result.user.email, 'primaria/secundaria', 'sede')
                 .then(() => {
                   console.log('se creo usuario');
+                  window.location.hash = '#/Inicio';
                 });
             }
           });
-        window.location.hash = '#/Inicio';
       }).catch((error) => {
         console.log('error de login', error);
       });
@@ -65,14 +74,15 @@ export const loginPrincipal = () => {
           .then((doc) => {
             if (doc.exists) {
               console.log('Usuario ya existe no es necesario crear uno nuevo');
+              window.location.hash = '#/Inicio';
             } else {
-              createUser(result.user.uid, result.user.displayName, result.user.photoURL, 'primaria/secundaria', result.user.email, 'Compartiendo conocimiento')
+              createUser(result.user.uid, result.user.displayName, result.user.photoURL, 'grado', result.user.email, 'primaria/secundaria', 'sede')
                 .then(() => {
                   console.log('se creo usuario');
+                  window.location.hash = '#/Inicio';
                 });
             }
           });
-        window.location.hash = '#/Inicio';
       })
       .catch((error) => {
         console.log('error login', error);
@@ -85,6 +95,7 @@ export const loginPrincipal = () => {
     e.preventDefault();
     const email = div.querySelector('#correo').value;
     const password = div.querySelector('#clave').value;
+    // validacion de datos
     logIn(email, password)
       .then(() => {
         div.querySelector('#messages-error').innerHTML = '';
@@ -92,7 +103,6 @@ export const loginPrincipal = () => {
       })
       .catch(() => {
         div.querySelector('#messages-error').innerHTML = '⚠️ Correo o clave no son correctos.';
-        alert('credenciales incorrectos');
       });
   });
   return div;
