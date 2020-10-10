@@ -2,36 +2,31 @@
 /* const storageRef = firebase.storage().ref('/'); */
 
 /* Crea usuario, el documento recibe el nombre del id */
-export const createUser = (id, name, email, photo, grade, description) => firebase.firestore()
-  .collection('usersY').doc(id).set({
-    id,
+export const createUser = (uid, name, email, photo, grade, campus) => firebase.firestore()
+  .collection('usersY').doc(uid).set({
+    uid,
     name,
     email,
     photo,
     grade,
-    description,
+    campus,
   });
 
 /* Obtenemos la data ya almacenada de nuestro usuario dentro de la colección UsersY.
-La usamos para comprobar */
-export const dataUser = id => firebase.firestore().collection('usersY').doc(id).get();
+La usamos para comprobar
+Devuelve una promesa */
+export const dataUser = uid => firebase.firestore().collection('usersY').doc(uid).get();
 
-/* Se usa este observador para cada página que solicite info del usuario */
-/* export const userIn = firebase.auth().onAuthStateChanged((user) => {
+/* export const user = firebase.auth().currentUser.uid; */
+
+// Verificamos que haya un usuario logeado y tenga acceso recién  la app
+/* export const validationUser = callback => firebase.auth().onAuthStateChanged((user) => 
+{  let route = '#/';
+  if (window.location.hash === '#/Registro') { route = '#/Registro'; }
   if (user) {
-    // User is signed in.
-    var displayName = user.displayName;
-    var email = user.email;
-    var emailVerified = user.emailVerified;
-    var photoURL = user.photoURL;
-    var isAnonymous = user.isAnonymous;
-    var uid = user.uid;
-    var providerData = user.providerData;
-    // ...
-  } else {
-    // User is signed out.
-    // ...
+    route = window.location.hash;
   }
-}); */
+  return callback(route);
+});
+ */
 
-/* const user = firebase.auth().currentUser.uid; */

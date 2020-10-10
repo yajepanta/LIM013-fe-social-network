@@ -1,10 +1,9 @@
-import { logIn, logInFb, logInGm } from '../model/firebase-auth.js';
+import { logInUser, logInFb, logInGm } from '../model/firebase-auth.js';
 
 import { createUser } from '../model/firebase-user.js';
 
-export const loginPrincipal = () => {
-  const viewLogin = ` 
-  <section id="view-login-desktop"> 
+export const logInView = () => {
+  const logInTmplt = `  
       <div class="saludo">
         <h1>¡Bienvenido a InnovaSocial!</h1>
         <p>En este lugar podrás comunicarte y compartir recursos</p>
@@ -25,20 +24,28 @@ export const loginPrincipal = () => {
         </form>
       </div>
     </div>
-  </section>
   `;
 
-  const div = document.createElement('div');
-  div.innerHTML = viewLogin;
+  /* En vez de crear un elemento div al que le sobreescribimos toda la section
+  creamos un fragmento, del que solo se verán los hijos en el dom
+  de esta forma, se ve más limpio nuestro html
+  y ya no queda el div > section, si no solo la seccion */
+  const fragment = document.createDocumentFragment();
+  const section = document.createElement('section');
+  section.setAttribute('id', 'view-login-desktop');
+  section.innerHTML = logInTmplt;
+  fragment.appendChild(section);
 
-  /* Inicio de sesión con Gmail */
-  const btnGmail = div.querySelector('#btn-gmail');
+  /* Inicio de sesión con Gmail.
+  Cambios: Adjunto directamente el 1er .then a la primera promesa, que va encandenando
+  las demás promesas. Así, el 2do .then está asociado a la respuesta de la 2da promesa
+  el .catch atrapa el error de cualquiera  */
 
+  const btnGmail = fragment.querySelector('#btn-gmail');
   btnGmail.addEventListener('click', (e) => {
     e.preventDefault();
     logInGm()
       .then((result) => {
-        console.log(result);
         if (result.additionalUserInfo.isNewUser === true) {
           createUser(
             result.user.providerData[0].uid,
@@ -47,27 +54,26 @@ export const loginPrincipal = () => {
             result.user.providerData[0].photoURL,
             '5to de primaria',
             'Compartiendo conocimiento',
-          ).then(() => {
-            console.log('Se creo usuario');
-            window.location.hash = '#/Inicio';
-          });
+          );
         } else {
           console.log('Usuario ya existe, no es necesario crear uno nuevo. Ir a mi perfil');
         }
       })
+      .then(() => {
+        console.log('Se creó usuario');
+        window.location.hash = '#/Inicio';
+      })
       .catch((error) => {
-        console.log('error login', error);
+        console.error(error);
       });
   });
 
   /* Inicio de sesión con Facebook */
-  const btnFb = div.querySelector('#btn-fb');
-
+  const btnFb = fragment.querySelector('#btn-fb');
   btnFb.addEventListener('click', (e) => {
     e.preventDefault();
     logInFb()
       .then((result) => {
-        console.log(result);
         if (result.additionalUserInfo.isNewUser === true) {
           createUser(
             /* Esta bien acceder de esta forma? o Es preferible almacenar esa ruta
@@ -78,13 +84,14 @@ export const loginPrincipal = () => {
             result.user.providerData[0].photoURL,
             '5to de primaria',
             'Compartiendo conocimiento',
-          ).then(() => {
-            console.log('Se creo usuario');
-            window.location.hash = '#/Inicio';
-          });
+          );
         } else {
           console.log('Usuario ya existe, no es necesario crear uno nuevo');
         }
+      })
+      .then(() => {
+        console.log('Se creó usuario');
+        window.location.hash = '#/Inicio';
       })
       .catch((error) => {
         console.log('error login', error);
@@ -92,20 +99,20 @@ export const loginPrincipal = () => {
   });
 
   // Creamos función para ingresar con una cuenta ya creada
-  const btnIngresar = div.querySelector('#form-login');
+  const btnIngresar = fragment.querySelector('#form-login');
   btnIngresar.addEventListener('submit', (e) => {
     e.preventDefault();
-    const email = div.querySelector('#correo').value;
-    const password = div.querySelector('#clave').value;
-    logIn(email, password)
+    const email = fragment.querySelector('#correo').value;
+    const password = fragment.querySelector('#clave').value;
+    logInUser(email, password)
       .then(() => {
-        div.querySelector('#messages-error').innerHTML = '';
+        fragment.querySelector('#messages-error').innerHTML = '';
         window.location.hash = '#/Inicio';
       })
       .catch(() => {
-        div.querySelector('#messages-error').innerHTML = '⚠️ Correo o clave no son correctos.';
+        fragment.querySelector('#messages-error').innerHTML = '⚠️ Correo o clave no son correctos.';
         alert('credenciales incorrectos');
       });
   });
-  return div;
+  return fragment;
 };

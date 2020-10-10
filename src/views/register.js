@@ -1,32 +1,9 @@
-import { register, logIn } from '../model/firebase-auth.js';
+import { registerUser, logInUser } from '../model/firebase-auth.js';
 
 import { createUser } from '../model/firebase-user.js';
 
-/* const newUser = (name, lastName, email, pass) => {
-  register(email, pass)
-    .then
-}; */
-
 export const registerView = () => {
-  const registerUser = (name, email, pass) => {
-    register(email, pass)
-      .then((result) => {
-        console.log(result);
-        createUser(result.user.uid, name, 'img/perfil.png', 'primaria/secundaria', email, 'Compartiendo conocimiento')
-          .then(() => {
-            console.log('se creo el usuario');
-          });
-        logIn(email, pass)
-          .then(() => {
-            window.location.hash = '#/Inicio';
-          });
-      })
-      .catch(() => {
-        console.log('cuenta ya existe');
-      });
-  };
   const registerTmplt = `
-  <section id='section-register'>
     <div class="saludo">
         <h1>Registrarte</h1>
         <p>Es rápido y fácil.</p>
@@ -54,23 +31,28 @@ export const registerView = () => {
           <input type='text' id='form-pass-check' name='form-pass-check' placeholder='Vuelve a escribir la contraseña'>
         </li>
         <li>
-          <button type="submit" id='btn-register' class='button-post'>REGISTRARTE</button>
+          <button type="button" id='btn-register' class='button-post'>REGISTRARTE</button>
         </li>  
       </ul> 
     </form>
-  </section> `;
-  const div = document.createElement('div');
-  div.innerHTML = registerTmplt;
+ `;
+
+  const fragment = document.createDocumentFragment();
+  const section = document.createElement('section');
+  section.setAttribute('id', 'section-register');
+  section.innerHTML = registerTmplt;
+  fragment.appendChild(section);
 
   /* Crear nueva cuenta de usuario */
-  const btnRegister = div.querySelector('#btn-register');
-  btnRegister.addEventListener('submit', (e) => {
+  const btnRegister = fragment.querySelector('#btn-register');
+  btnRegister.addEventListener('click', (e) => {
     e.preventDefault();
-    const name = div.querySelector('#form-name').value;
-    const lastName = div.querySelector('#form-lastname').value;
-    const email = div.querySelector('#form-email').value;
-    const pass = div.querySelector('#form-pass').value;
-    const passCheck = div.querySelector('#form-pass-check').value;
+    const name = fragment.querySelector('#form-name').value;
+    const lastName = fragment.querySelector('#form-lastname').value;
+    const fullName = name + lastName;
+    const email = fragment.querySelector('#form-email').value;
+    const pass = fragment.querySelector('#form-pass').value;
+    const passCheck = fragment.querySelector('#form-pass-check').value;
     if (name === '') {
       alert('name');
     } else if (lastName === '') {
@@ -82,16 +64,36 @@ export const registerView = () => {
     } else if (pass !== passCheck) {
       alert('pass diferente');
     } else {
-      registerUser(name, email, pass);
+      registerUser(email, pass)
+        // Result es "user" con todos los datos que luego se almacenan en createUser
+        .then((result) => { createUser(result.user.uid, fullName, email, 'img/perfil.png', 'primaria/secundaria', 'Sede'); })
+        // Recibe un undefined. por que?
+        .then(() => logInUser(email, pass))
+        .then(() => { window.location.hash = '#/Inicio'; })
+        .catch(error => console.log(error));
     }
   });
 
-  return div;
+  return fragment;
 };
 
+/*
+      registerUser(email, pass)
+        .then((result) => {
+          console.log(result);
+       createUser(result.user.uid, fullName, email, 'img/perfil.png', 'primaria/secundaria', 'Sede')
+            .then(() => {
+              console.log('se creó el usuario');
+            });
+          logInUser(email, pass)
+            .then(() => {
+              window.location.hash = '#/Inicio';
+            });
+        })
+        .catch(() => {
+          console.log('Cuenta ya existe');
+        });
+    }
+  });
 
-/* <li>
-          <label for='form-grade'></label>
-     <input type='text' id='form-grade' name='form-grade' placeholder='Indica en qué grado estás'>
-        </li>
          */

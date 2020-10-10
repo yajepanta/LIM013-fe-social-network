@@ -1,6 +1,5 @@
-export const Perfil = () => {
-  const viewPerfil = `
-    <section id="view-perfil">
+const profileView = () => {
+  const profileTmplt = `
     <div class="portada">
       <div id="contendor-imagen">
        <img id="portada-mensaje" src="/img/frase.png">
@@ -17,8 +16,13 @@ export const Perfil = () => {
       </form>
 
     </div>
-  </section> `;
-  const div = document.createElement('div');
-  div.innerHTML = viewPerfil;
-  return div;
+    `;
+
+  const fragment = document.createDocumentFragment();
+  const section = document.createElement('section');
+  section.setAttribute('id', 'view-perfil');
+  section.innerHTML = profileTmplt;
+  return fragment;
 };
+
+export { profileView };

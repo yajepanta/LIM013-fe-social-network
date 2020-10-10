@@ -1,7 +1,7 @@
-export const register = (email, password) => firebase.auth()
+export const registerUser = (email, password) => firebase.auth()
   .createUserWithEmailAndPassword(email, password);
 
-export const logIn = (email, password) => firebase.auth()
+export const logInUser = (email, password) => firebase.auth()
   .signInWithEmailAndPassword(email, password);
 
 export const logInFb = () => {

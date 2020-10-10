@@ -2,11 +2,8 @@ import { logOut } from '../model/firebase-auth.js';
 
 import { dataUser } from '../model/firebase-user.js';
 
-export const timelineView = () => {
-/*   const user = firebase.auth().currentUser.uid; */
-  const timeline = `
-    <!-- PERFIL CON OPCIÓN PARA POSTEAR -->
-  <section id="timelineView">
+const timelineView = () => {
+  const timelineTmplt = `
     <section id="profile" class="card">
       <img src="img/perfil.jpg" id='photo-profile' class='rounded' alt="profile-picture">
       <ul class="profile-data">
@@ -81,23 +78,29 @@ export const timelineView = () => {
         </div>
       <div>  
     </section>
-  </section> `;
-  const div = document.createElement('div');
-  div.innerHTML = timeline;
-  const name = div.querySelector('.name');
-  const grade = div.querySelector('.grade');
-  const description = div.querySelector('.description');
-  const photo = div.querySelector('#photo-profile');
+`;
 
-/*   // Llenado con los datos del usuario
-  dataUser(user)
+  const fragment = document.createDocumentFragment();
+  const section = document.createElement('section');
+  section.setAttribute('id', 'timelineView');
+  section.innerHTML = timelineTmplt;
+  fragment.appendChild(section);
+
+  const name = fragment.querySelector('.name');
+  const grade = fragment.querySelector('.grade');
+  const description = fragment.querySelector('.description');
+  const photo = fragment.querySelector('#photo-profile');
+
+  // Llenado con los datos del usuario
+  const user = firebase.auth().currentUser;
+  dataUser(user.uid)
     .then((docUser) => {
-      console.log(user);
       name.innerHTML = docUser.data().name;
       grade.innerHTML = docUser.data().grade;
       description.innerHTML = docUser.data().description;
       photo.src = docUser.data().photo;
-    });
+    })
+    .catch(err => console.error(err));
 
   // Cerrar sesión
   const btnLogOut = document.getElementById('btn-logout');
@@ -107,7 +110,11 @@ export const timelineView = () => {
         console.log('salio de logeo');
         window.location.hash = '#/Cerrar';
         document.querySelector('#nav').classList.remove('mostrar');
-      });
-  }); */
-  return div;
+      })
+      .catch(err => console.error(err));
+  });
+
+  return fragment;
 };
+
+export { timelineView };
