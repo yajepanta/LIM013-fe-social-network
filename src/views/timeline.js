@@ -10,10 +10,10 @@ export const timelineView = () => {
     <section id="profile" class="card">
       <img src="img/perfil.jpg" id='photo-profile' class='rounded' alt="profile-picture">
       <ul class="profile-data">
-        <li class="name"></li>
-        <li class="level"></li>
-        <li class="grade"></li>
-        <li class="campus"></li>
+        <li><i class="fas fa-id-card"></i><span class="name"></span></li>
+        <li><i class="fas fa-graduation-cap"></i><span class="level"></span></li>
+        <li><i class="fas fa-info-circle"></i><span class="grade"></span></li>
+        <li><i class="fas fa-map-marker-alt"></i><span class="campus"></span></li>
       </ul>
     </section>
 
