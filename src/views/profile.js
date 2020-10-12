@@ -22,6 +22,7 @@ const profileView = () => {
   const section = document.createElement('section');
   section.setAttribute('id', 'view-perfil');
   section.innerHTML = profileTmplt;
+  fragment.appendChild(section);
   return fragment;
 };
 

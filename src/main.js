@@ -19,13 +19,30 @@ const firebaseConfig = {
 // Initialize Firebase. Todas las llamadas a firebase deben ser después de este incio
 firebase.initializeApp(firebaseConfig);
 
+firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
+    console.log(user);
+  } else {
+    // es null
+    console.error(user);
+  }
+});
 
 const init = () => {
   changeView(window.location.hash);
   window.addEventListener('hashchange', () => changeView(window.location.hash));
 };
 
-/* const userIsLogged = firebase.auth().onAuthStateChanged((user) => {
+/* firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
+    window.location.hash = '#/wall';
+  } else {
+    window.location.hash = '#';
+    // apagar observador
+  }
+});
+
+firebase.auth().onAuthStateChanged((user) => {
   if (user) {
     console.log(user);
   } else {

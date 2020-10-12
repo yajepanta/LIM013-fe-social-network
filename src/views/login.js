@@ -11,9 +11,9 @@ export const logInView = () => {
       <div id="formulario-principal">
         <form id="form-login">
           <i class="fas fa-envelope-square"></i>
-          <input type="text" id="correo" name="correo" placeholder="Correo Electrónico" class="input-form" required/><br>
+          <input type="text" id="email" name="correo" placeholder="Correo Electrónico" class="input-form" required/><br>
           <i class="fas fa-lock"></i>
-          <input type="password" id="clave" name="clave" placeholder="Contraseña"class="input-form" required/><br>
+          <input type="password" id="password" name="clave" placeholder="Contraseña"class="input-form" required/><br>
           <p id='messages-error'></p>
           <button  type="submit" id="btn-ingresar">INGRESAR</button>
           <p>O ingresa con</p>
@@ -48,12 +48,12 @@ export const logInView = () => {
       .then((result) => {
         if (result.additionalUserInfo.isNewUser === true) {
           createUser(
-            result.user.providerData[0].uid,
+            result.user.uid,
             result.user.providerData[0].displayName,
             result.user.providerData[0].email,
             result.user.providerData[0].photoURL,
             '5to de primaria',
-            'Compartiendo conocimiento',
+            'Campus',
           );
         } else {
           console.log('Usuario ya existe, no es necesario crear uno nuevo. Ir a mi perfil');
@@ -78,7 +78,7 @@ export const logInView = () => {
           createUser(
             /* Esta bien acceder de esta forma? o Es preferible almacenar esa ruta
             al array? */
-            result.user.providerData[0].uid,
+            result.user.uid,
             result.user.providerData[0].displayName,
             result.user.providerData[0].email,
             result.user.providerData[0].photoURL,
@@ -102,15 +102,15 @@ export const logInView = () => {
   const btnIngresar = fragment.querySelector('#form-login');
   btnIngresar.addEventListener('submit', (e) => {
     e.preventDefault();
-    const email = fragment.querySelector('#correo').value;
-    const password = fragment.querySelector('#clave').value;
+    const email = section.querySelector('#email').value;
+    const password = section.querySelector('#password').value;
     logInUser(email, password)
       .then(() => {
-        fragment.querySelector('#messages-error').innerHTML = '';
+        section.querySelector('#messages-error').innerHTML = '';
         window.location.hash = '#/Inicio';
       })
       .catch(() => {
-        fragment.querySelector('#messages-error').innerHTML = '⚠️ Correo o clave no son correctos.';
+        section.querySelector('#messages-error').innerHTML = '⚠️ Correo o clave no son correctos.';
         alert('credenciales incorrectos');
       });
   });

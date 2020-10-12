@@ -91,13 +91,17 @@ const timelineView = () => {
   const description = fragment.querySelector('.description');
   const photo = fragment.querySelector('#photo-profile');
 
+  // Usuario loggeado
+  const currentUser = firebase.auth().currentUser;
+
   // Llenado con los datos del usuario
-  const user = firebase.auth().currentUser;
-  dataUser(user.uid)
+  dataUser(currentUser.uid)
     .then((docUser) => {
       name.innerHTML = docUser.data().name;
       grade.innerHTML = docUser.data().grade;
-      description.innerHTML = docUser.data().description;
+      if (docUser.data().description !== undefined) {
+        description.innerHTML = docUser.data().description;
+      }
       photo.src = docUser.data().photo;
     })
     .catch(err => console.error(err));

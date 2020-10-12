@@ -32,6 +32,7 @@ const changeView = (route) => {
       break;
     }
     case '#/Perfil': {
+      headerElem.classList.add('mostrar');
       aside.classList.add('hidden');
       container.appendChild(components.profile());
       break;
