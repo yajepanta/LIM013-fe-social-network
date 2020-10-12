@@ -3,7 +3,7 @@ import { logOut } from '../model/firebase-auth.js';
 import { dataUser } from '../model/firebase-user.js';
 
 export const timelineView = () => {
-  const user = firebase.auth().currentUser.uid;
+  const user = firebase.auth().currentUser;
   const timeline = `
     <!-- PERFIL CON OPCIÓN PARA POSTEAR -->
   <section id="timelineView">

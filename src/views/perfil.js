@@ -15,7 +15,6 @@ export const Perfil = () => {
         <label for ="gradoUsuario">Grado</label><br>
         <input type="text" id="gradoUsuario"  class="input-perfil" placeholder="Grado que cursa"/><br>
       </form>
-
     </div>
   </section> `;
   const div = document.createElement('div');
