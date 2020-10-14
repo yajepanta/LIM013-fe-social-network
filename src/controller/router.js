@@ -2,13 +2,13 @@ import { components } from '../views/index.js';
 
 //  Función de cambios de rutas
 
-const changeView = (route) => {
+const changeView = (hash) => {
   const headerElem = document.querySelector('#nav');
   const aside = document.body.getElementsByTagName('aside')[0];
   const container = document.getElementById('container');
   container.innerHTML = '';
 
-  switch (route) {
+  switch (hash) {
     case '': {
       aside.classList.remove('hidden');
       container.appendChild(components.logIn());

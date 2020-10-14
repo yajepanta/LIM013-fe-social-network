@@ -1,6 +1,6 @@
 // Este es el punto de entrada de tu aplicacion
 import { changeView } from './controller/router.js';
-/* import { validationUser } from './model/firebase-user.js'; */
+import { validationUser } from './model/firebase-user.js';
 
 /* Configuraciones iniciales de Firebase */
 /* For Firebase JS SDK v7.20.0 and later, measurementId is optional */
@@ -19,42 +19,25 @@ const firebaseConfig = {
 // Initialize Firebase. Todas las llamadas a firebase deben ser después de este incio
 firebase.initializeApp(firebaseConfig);
 
-firebase.auth().onAuthStateChanged((user) => {
+/* firebase.auth().onAuthStateChanged((user) => {
   if (user) {
     console.log(user);
   } else {
     // es null
     console.error(user);
   }
-});
+}); */
 
-const init = () => {
+/* const init = () => {
   changeView(window.location.hash);
   window.addEventListener('hashchange', () => changeView(window.location.hash));
 };
 
-/* firebase.auth().onAuthStateChanged((user) => {
-  if (user) {
-    window.location.hash = '#/wall';
-  } else {
-    window.location.hash = '#';
-    // apagar observador
-  }
-});
+window.addEventListener('load', init); */
 
-firebase.auth().onAuthStateChanged((user) => {
-  if (user) {
-    console.log(user);
-  } else {
-    console.error(user);
-  }
-}); */
-
-window.addEventListener('load', init);
-
-/* const initialize = () => {
+const initialize = () => {
   validationUser(changeView);
-  // window.addEventListener('hashchange', () => validationUser(changeView));
 };
+
 window.addEventListener('load', initialize);
-window.addEventListener('hashchange', initialize); */
+window.addEventListener('hashchange', initialize);
