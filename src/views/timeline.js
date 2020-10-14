@@ -98,6 +98,20 @@ export const timelineView = () => {
       userLevel.innerHTML = docUser.data().level;
       userCampus.innerHTML = docUser.data().campus;
       userPhoto.src = docUser.data().photo;
+
+      if (docUser.data().photo === undefined) {
+        userPhoto.src = docUser.data().photo;
+      } else {
+        const nameUser = docUser.data().name;
+        const firstLetter = nameUser.slice(0, 1);
+        const divImgProfile = document.createElement('div');
+        divImgProfile.classList.add('profile-undefined');
+        const profileData = div.querySelector('.profile-data');
+        divImgProfile.innerHTML = firstLetter;
+        userPhoto.classList.add('hidden');
+        const profile = document.getElementById('profile');
+        profile.insertBefore(divImgProfile, profileData);
+      }
     });
 
   // Cerrar sesión
