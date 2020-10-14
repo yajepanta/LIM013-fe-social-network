@@ -9,7 +9,7 @@ const timelineView = () => {
   const timelineTmplt = `
   <section id='timelineView'>
     <section id="profile" class="card">
-      <img src="img/perfil.jpg" id='photo-profile' class='rounded' alt="profile-picture">
+      <img src='' id='photo-profile' class='rounded' alt="profile-picture">
       <ul class="profile-data">
         <li><i class="fas fa-id-card"></i><span class="name"> Profesora</span></li>
         <li><i class="fas fa-graduation-cap"></i><span class="grade"> 1ro de secundaria</span></li>
@@ -26,8 +26,7 @@ const timelineView = () => {
               <a href="#"><i class="fas fa-globe-americas"></i> Público</a>
               <a href="#"><i class="fas fa-user-lock"></i> Privado</a>
             </div>
-          </div>
-                
+          </div>     
         </div>
 
         <div class="card-text">
@@ -35,10 +34,13 @@ const timelineView = () => {
           <textarea class="post-input-text content-post" name="post-text" placeholder="¿Qué quieres compartir?"></textarea>
         </div>
 
-        <div class="card-footer">
-          <button type="button" id="load-img" class="post-btn"><i class="fas fa-images"></i> Subir imagen</button>
+        <div class='card-footer'>
+          <label for='upload-img' class="post-btn"><i class="fas fa-images"></i> Subir imagen
+            <input type='file' id='upload-img' class='post-btn' accept='image/png, image/jpeg'>
+          </label>
           <button id="share-post" class="post-btn"><i class="fas fa-share-square"></i> Compartir</button>
         </div>
+        <img src='' class='preview' height="150" alt="Image preview...">
       </div>  
     </section>
 
@@ -56,21 +58,52 @@ const timelineView = () => {
   const grade = div.querySelector('.grade');
   const description = div.querySelector('.description');
   const photo = div.querySelector('#photo-profile');
-
   const timeline = div.querySelector('#timeline');
+
+  let selectedFile = '';
+  let imgURL = '';
 
   dataUser(currentUser.uid)
   // Llenado con los datos del usuario
     .then((docUser) => {
       name.innerHTML = docUser.data().name;
       grade.innerHTML = docUser.data().grade;
-      photo.src = docUser.data().photo;
+      if (docUser.data().photo === undefined) {
+        photo.src = docUser.data().photo;
+      } else {
+        const nameUser = docUser.data().name;
+        const firstLetter = nameUser.slice(0, 1);
+        const divImgProfile = document.createElement('div');
+        divImgProfile.classList.add('profile-undefined');
+        const profileData = div.querySelector('.profile-data');
+        divImgProfile.innerHTML = firstLetter;
+        photo.classList.add('hidden');
+        const profile = document.getElementById('profile');
+        profile.insertBefore(divImgProfile, profileData);
+      }
+
       if (docUser.data().description !== undefined) {
         description.innerHTML = docUser.data().description;
       }
 
+
       // Crear Post
       if (currentUser) {
+        const fileInput = document.querySelector('#upload-img');
+        const preview = document.querySelector('.preview');
+        const reader = new FileReader();
+
+        fileInput.addEventListener('change', () => {
+          selectedFile = fileInput.files[0];
+          if (selectedFile) {
+            reader.readAsDataURL(selectedFile);
+            reader.onload = () => {
+              imgURL = reader.result;
+              preview.src = reader.result;
+            };
+          }
+        });
+
         const btnSharePost = div.querySelector('#share-post');
         btnSharePost.addEventListener('click', () => {
           let contentPost = div.querySelector('.content-post').value;
@@ -92,12 +125,12 @@ const timelineView = () => {
     })
     .catch(err => console.error(err));
 
-  // Timeline: Llamamos a los posts
 
-  const allPosts = () => firebase.firestore().collection('postsY').where('user', '==', currentUser.uid)
+  // Timeline: Llamamos a los posts. Revisar el condicional .where('user', '==', currentUser.uid)
+
+  const allPosts = () => firebase.firestore().collection('postsY')
     .orderBy('date', 'desc')
     .onSnapshot((querySnapshot) => {
-
       timeline.innerHTML = '';
       querySnapshot.forEach((doc) => {
         timeline.innerHTML += `
@@ -148,7 +181,7 @@ const timelineView = () => {
   <div class="card-header">
     <img src="img/perfil.jpg" class='post-profile-picture rounded' alt="profile-picture">
     <span id='post-author-name'>PROFESORA ABCDEF</span> 
-       
+
   </div>
 
   <div class="card-text">
@@ -172,7 +205,6 @@ const timelineView = () => {
   btnLogOut.addEventListener('click', () => {
     logOut()
       .then(() => {
-        console.log('salio de logeo');
         window.location.hash = '#/Cerrar';
         document.querySelector('#nav').classList.remove('mostrar');
       })

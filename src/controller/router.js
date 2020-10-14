@@ -2,13 +2,14 @@ import { components } from '../views/index.js';
 
 //  Función de cambios de rutas
 
-const changeView = (hash) => {
+const changeView = (route) => {
+  window.location.hash = route;
   const headerElem = document.querySelector('#nav');
   const aside = document.body.getElementsByTagName('aside')[0];
   const container = document.getElementById('container');
   container.innerHTML = '';
 
-  switch (hash) {
+  switch (route) {
     case '': {
       aside.classList.remove('hidden');
       container.appendChild(components.logIn());
@@ -28,6 +29,7 @@ const changeView = (hash) => {
     case '#/Inicio': {
       headerElem.classList.add('mostrar');
       aside.classList.add('hidden');
+      // llamar a la fx
       container.appendChild(components.timeline());
       break;
     }

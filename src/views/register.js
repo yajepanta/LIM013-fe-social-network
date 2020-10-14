@@ -64,9 +64,10 @@ export const registerView = () => {
     } else if (pass !== passCheck) {
       alert('pass diferente');
     } else {
+      const firstLetter = name.slice(0, 1);
       registerUser(email, pass)
         // Result es "user" con todos los datos que luego se almacenan en createUser
-        .then((result) => { createUser(result.user.uid, fullName, email, 'img/perfil.png', 'primaria/secundaria', 'Sede'); })
+        .then((result) => { createUser(result.user.uid, fullName, email, firstLetter, 'primaria/secundaria', 'Sede'); })
         // Recibe un undefined. por que?
         .then(() => logInUser(email, pass))
         .then(() => { window.location.hash = '#/Inicio'; })
