@@ -17,7 +17,6 @@ La usamos para comprobar
 Devuelve una promesa */
 export const dataUser = id => firebase.firestore().collection('usersY').doc(id).get();
 
-
 export const createPost = (id, userName, idPost, date, contentPost, imgPost, userPhoto) => firebase.firestore().collection('postsY').doc().set({
   user: id,
   name: userName,
@@ -27,7 +26,6 @@ export const createPost = (id, userName, idPost, date, contentPost, imgPost, use
   img: imgPost,
   photo: userPhoto,
 });
-
 
 // Cuando se terminó el inicio de sesión, ya puede acceder a todo
 export const validationUser = callback => firebase.auth().onAuthStateChanged((user) => {

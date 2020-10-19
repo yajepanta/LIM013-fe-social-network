@@ -1,19 +1,17 @@
 import { logOut } from '../model/firebase-auth.js';
 
-import { dataUser, createPost } from '../model/firebase-user.js';
+import { createPost } from '../model/firebase-user.js';
+import { storageRef } from '../main.js';
 
-const timelineView = () => {
-  // Usuario loggeado
-  const currentUser = firebase.auth().currentUser;
-  console.log(currentUser);
+const timelineView = (data) => {
   const timelineTmplt = `
   <section id='timelineView'>
     <section id="profile" class="card">
       <img src='' id='photo-profile' class='rounded' alt="profile-picture">
       <ul class="profile-data">
-        <li><i class="fas fa-id-card"></i><span class="name"> Profesora</span></li>
-        <li><i class="fas fa-graduation-cap"></i><span class="grade"> 1ro de secundaria</span></li>
-        <li><i class="fas fa-info-circle"></i><span class="description"> Compartiendo conocimiento</span></li>
+        <li><i class="fas fa-id-card"></i><span class="name">${data.name}</span></li>
+        <li><i class="fas fa-graduation-cap"></i><span class="grade">${data.grade}</span></li>
+        <li><i class="fas fa-info-circle"></i><span class="campus">${data.campus}</span></li>
       </ul>
     </section>
 
@@ -31,7 +29,7 @@ const timelineView = () => {
 
         <div class="card-text">
           <label for="post-text"></label>
-          <textarea class="post-input-text content-post" name="post-text" placeholder="¿Qué quieres compartir?"></textarea>
+          <textarea class="post-input-text content-post" name="post-text" placeholder="¿Qué quieres compartir, ${data.name}?"></textarea>
         </div>
 
         <div class='card-footer'>
@@ -40,7 +38,7 @@ const timelineView = () => {
           </label>
           <button id="share-post" class="post-btn"><i class="fas fa-share-square"></i> Compartir</button>
         </div>
-        <img src='' class='preview' height="150" alt="Image preview...">
+        <img src='' class='preview hidden' height="150" alt="Image preview...">
       </div>  
     </section>
 
@@ -50,80 +48,78 @@ const timelineView = () => {
   </section>
 `;
 
-
   const div = document.createElement('div');
   div.innerHTML = timelineTmplt;
 
-  const name = div.querySelector('.name');
-  const grade = div.querySelector('.grade');
-  const description = div.querySelector('.description');
   const photo = div.querySelector('#photo-profile');
+  const campus = div.querySelector('.campus');
   const timeline = div.querySelector('#timeline');
 
+  if (data.photo !== undefined) {
+    photo.src = data.photo;
+  } else {
+    const divImgProfile = document.createElement('div');
+    divImgProfile.classList.add('profile-undefined');
+    const profileData = div.querySelector('.profile-data');
+    divImgProfile.innerHTML = data.photo;
+    photo.classList.add('hidden');
+    const profile = document.getElementById('profile');
+    profile.insertBefore(divImgProfile, profileData);
+  }
+
+  if (data.description !== undefined) {
+    campus.innerHTML = data.description;
+  }
+
+  const fileInput = div.querySelector('#upload-img');
+
   let selectedFile = '';
-  let imgURL = '';
+  fileInput.addEventListener('change', () => {
+    const preview = div.querySelector('.preview');
+    preview.classList.remove('hidden');
 
-  dataUser(currentUser.uid)
-  // Llenado con los datos del usuario
-    .then((docUser) => {
-      name.innerHTML = docUser.data().name;
-      grade.innerHTML = docUser.data().grade;
-      if (docUser.data().photo === undefined) {
-        photo.src = docUser.data().photo;
+    const reader = new FileReader();
+    // el archivo a subir, la imagen entera
+    selectedFile = fileInput.files[0];
+    // reader result es la imagen en código Blob
+    if (selectedFile) {
+      reader.onload = () => {
+        // reader result es la imagen en código Blob(base64 string)        imgURL = reader.result;
+        preview.src = reader.result;
+      };
+      /* Starts reading the contents of the specified Blob, once finished,
+      the result attribute contains a data: URL representing the file's data. */
+      reader.readAsDataURL(selectedFile);
+    }
+  });
+
+  // Crear Post
+  const btnSharePost = div.querySelector('#share-post');
+  btnSharePost.addEventListener('click', () => {
+    let contentPost = div.querySelector('.content-post').value;
+    const idPost = `${Math.random()}`;
+    const date = new Date().toLocaleString();
+
+    if (contentPost !== '') {
+      if (selectedFile === '') {
+        createPost(data.id, data.name, idPost, date, contentPost, 'imgpost', data.photo)
+          .then(() => {
+            console.log('post creado');
+            contentPost = '';
+          })
+          .catch(err => console.error(err));
       } else {
-        const nameUser = docUser.data().name;
-        const firstLetter = nameUser.slice(0, 1);
-        const divImgProfile = document.createElement('div');
-        divImgProfile.classList.add('profile-undefined');
-        const profileData = div.querySelector('.profile-data');
-        divImgProfile.innerHTML = firstLetter;
-        photo.classList.add('hidden');
-        const profile = document.getElementById('profile');
-        profile.insertBefore(divImgProfile, profileData);
+        createPost(data.id, data.name, idPost, date, contentPost, selectedFile, data.photo)
+          .then(() => {
+            console.log('post creado con imagen');
+            contentPost = '';
+          })
+          .catch(err => console.error(err));
       }
-
-      if (docUser.data().description !== undefined) {
-        description.innerHTML = docUser.data().description;
-      }
-
-
-      // Crear Post
-      if (currentUser) {
-        const fileInput = document.querySelector('#upload-img');
-        const preview = document.querySelector('.preview');
-        const reader = new FileReader();
-
-        fileInput.addEventListener('change', () => {
-          selectedFile = fileInput.files[0];
-          if (selectedFile) {
-            reader.readAsDataURL(selectedFile);
-            reader.onload = () => {
-              imgURL = reader.result;
-              preview.src = reader.result;
-            };
-          }
-        });
-
-        const btnSharePost = div.querySelector('#share-post');
-        btnSharePost.addEventListener('click', () => {
-          let contentPost = div.querySelector('.content-post').value;
-          const idPost = `${Math.random()}`;
-          const date = new Date().toLocaleString();
-
-          if (contentPost !== '') {
-            createPost(currentUser.uid, docUser.data().name, idPost, date, contentPost, 'imgpost', docUser.data().photo)
-              .then(() => {
-                console.log('post creado');
-                contentPost = '';
-              })
-              .catch(err => console.error(err));
-          } else {
-            console.error('post vacío');
-          }
-        });
-      }
-    })
-    .catch(err => console.error(err));
+    } else {
+      console.error('post vacío');
+    }
+  });
 
 
   // Timeline: Llamamos a los posts. Revisar el condicional .where('user', '==', currentUser.uid)
@@ -137,7 +133,7 @@ const timelineView = () => {
    <div class="post card">
      <div class="card-header">
        <img src="${doc.data().photo}" class='post-profile-picture rounded' alt="profile-picture">
-       <span id='post-author-name'>${doc.data().name}</span> 
+       <span id='post-author-name'>${doc.data().name} ${doc.data().img}</span> 
        <button type="button" id="edit-post" class="post-btn"><i class="fas fa-edit"></i> Editar</button>
       <button type='button' class='button-delete-post post-btn'><i class="fas fa-trash-alt"></i></button>
           
@@ -155,7 +151,6 @@ const timelineView = () => {
    </div>
    `;
       });
-      console.log('Posts with author', currentUser.uid);
     });
 
   allPosts();
@@ -180,7 +175,7 @@ const timelineView = () => {
         timeline.innerHTML += `<div class="post card">
   <div class="card-header">
     <img src="img/perfil.jpg" class='post-profile-picture rounded' alt="profile-picture">
-    <span id='post-author-name'>PROFESORA ABCDEF</span> 
+    <span id='post-author-name'>PROFESORA ABCDEF</span>
 
   </div>
 

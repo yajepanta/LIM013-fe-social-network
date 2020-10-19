@@ -1,4 +1,5 @@
 import { components } from '../views/index.js';
+import { dataUser } from '../model/firebase-user.js';
 
 //  Función de cambios de rutas
 
@@ -29,8 +30,14 @@ const changeView = (route) => {
     case '#/Inicio': {
       headerElem.classList.add('mostrar');
       aside.classList.add('hidden');
-      // llamar a la fx
-      container.appendChild(components.timeline());
+      // Usuario logueado
+      const currentUser = firebase.auth().currentUser;
+      dataUser(currentUser.uid)
+        .then((doc) => {
+          container.appendChild(components.timeline(doc.data()));
+        })
+        .catch(err => console.error(err));
+
       break;
     }
     case '#/Perfil': {

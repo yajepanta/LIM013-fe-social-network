@@ -74,6 +74,7 @@ export const logInView = () => {
     e.preventDefault();
     logInFb()
       .then((result) => {
+        console.log(result);
         if (result.additionalUserInfo.isNewUser === true) {
           createUser(
             /* Esta bien acceder de esta forma? o Es preferible almacenar esa ruta
