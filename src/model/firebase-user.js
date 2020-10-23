@@ -1,6 +1,4 @@
-
-/* const storageRef = firebase.storage().ref('/'); */
-
+/* import { storage } from '../main.js' */
 /* Crea usuario, el documento recibe el nombre del id */
 export const createUser = (id, name, email, photo, grade, campus) => firebase.firestore()
   .collection('usersY').doc(id).set({
@@ -46,3 +44,12 @@ export const validationUser = callback => firebase.auth().onAuthStateChanged((us
   }
   return callback(route);
 }); */
+
+// Para subir un archivo a Cloud Storage, primero debes crear una referencia a la ruta
+// de acceso completa del archivo, incluido el nombre.
+/* export const uploadFile = (user, file) => {
+  const uploadTask = storage.ref.child(`/${user}/${file.name}`).put(file);
+  return uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+    console.log('File available at', downloadURL);
+  });
+}; */

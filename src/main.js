@@ -18,13 +18,9 @@ const firebaseConfig = {
 
 // Initialize Firebase. Todas las llamadas a firebase deben ser después de este incio
 firebase.initializeApp(firebaseConfig);
-
 // Get a non-default Storage bucket
-const storage = firebase.app().storage('gs://imgY');
-
-// Create a storage reference from our storage service
-export const storageRef = storage.ref();
-
+/* export const storage = firebase.app().storage('gs://imgY'); */
+export const storage = firebase.storage();
 /*
 export const uploadImgPost = (file, uid) => {
   const refImgPost = firebase.storage().ref(`imagePost/${uid}/${file.name}`);
