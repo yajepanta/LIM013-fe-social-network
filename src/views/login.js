@@ -16,9 +16,9 @@ export const logInView = () => {
           <input type="password" id="password" name="clave" placeholder="Contraseña"class="input-form" required/><br>
           <p id='messages-error'></p>
           <button  type="submit" id="btn-ingresar">INGRESAR</button>
-          <p>O ingresa con</p>
-          <button type="button" id="btn-fb" class="redes"><i class="fab fa-facebook-f"></i></button>
-          <button type="button" id="btn-gmail" class="redes"><i class="fab fa-google"></i></button>
+          <p>O también</p>
+          <br>
+          <button type="button" id="btn-gmail" class="redes"><i class="fab fa-google-plus-square"></i> Ingresa con Google</button>
           <p>¿Todavia no eres miembro?</p>
           <a id="nueva-cuenta" href="#/Registro">Únete Ahora</a>
         </form>
@@ -65,37 +65,6 @@ export const logInView = () => {
       })
       .catch((error) => {
         console.error(error);
-      });
-  });
-
-  /* Inicio de sesión con Facebook */
-  const btnFb = fragment.querySelector('#btn-fb');
-  btnFb.addEventListener('click', (e) => {
-    e.preventDefault();
-    logInFb()
-      .then((result) => {
-        console.log(result);
-        if (result.additionalUserInfo.isNewUser === true) {
-          createUser(
-            /* Esta bien acceder de esta forma? o Es preferible almacenar esa ruta
-            al array? */
-            result.user.uid,
-            result.user.providerData[0].displayName,
-            result.user.providerData[0].email,
-            result.user.providerData[0].photoURL,
-            '5to de primaria',
-            'Compartiendo conocimiento',
-          );
-        } else {
-          console.log('Usuario ya existe, no es necesario crear uno nuevo');
-        }
-      })
-      .then(() => {
-        console.log('Se creó usuario');
-        window.location.hash = '#/Inicio';
-      })
-      .catch((error) => {
-        console.log('error login', error);
       });
   });
 

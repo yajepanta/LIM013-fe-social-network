@@ -15,12 +15,11 @@ La usamos para comprobar
 Devuelve una promesa */
 export const dataUser = id => firebase.firestore().collection('usersY').doc(id).get();
 
-export const createPost = (id, userName, idPost, date, contentPost, imgPost, userPhoto) => firebase.firestore().collection('postsY').doc().set({
+export const createPost = (id, userName, date, contentPost, imgPost, userPhoto) => firebase.firestore().collection('postsY').doc().set({
   user: id,
   name: userName,
-  idPost,
   date,
-  post: contentPost,
+  content: contentPost,
   img: imgPost,
   photo: userPhoto,
 });
@@ -36,6 +35,13 @@ export const validationUser = callback => firebase.auth().onAuthStateChanged((us
   return callback(route);
 });
 
+
+export const deletePost = postId => firebase.firestore().collection('postsY').doc(postId).delete();
+
+export const editTextPost = (postId, content) => firebase.firestore().collection('postsY')
+  .doc(postId).update({
+    content,
+  });
 /* export const validationUser = callback => firebase.auth().onAuthStateChanged((user) => {
   let route = '';
   if (window.location.hash === '#/Registro') route = '#/Registro';

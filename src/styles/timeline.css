@@ -111,8 +111,11 @@ textarea {
     color: gray;
     margin: 10px 0 10px 0;
     user-select: none;
-  }
+  }  
 
+.focus {
+  border: 2px solid black;
+}
 .card-footer{
     width: 280px;
     display: flex;

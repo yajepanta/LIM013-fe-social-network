@@ -66,22 +66,22 @@
   box-shadow: 0 5px #666;
   transform: translateY(4px);
 }
-#btn-fb {
-	border:solid #007cba;
-}
-#btn-fb i{
-	color:#007cba;
-}
+
 #btn-gmail{
-	border: solid #CB2B04;
+	border: solid cornflowerblue;
 }
 #btn-gmail i{
-	color:#CB2B04;
-}
-.redes{
-	background-color: #ffffff;
+	color:floralwhite;
 	font-size: xx-large;
-	width: 1.6em;
+
+}
+.redes {
+	background-color: cornflowerblue;
+	font-size: large;
+	color: white;
+	border-radius: 5px;
+	width: 70%;
+	height: 55px;
 	margin-right: 5%;
 	margin-bottom: 6%;
 	outline: none;
