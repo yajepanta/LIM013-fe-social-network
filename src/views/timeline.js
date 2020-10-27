@@ -3,7 +3,7 @@ import { createPost, deletePost, editTextPost } from '../model/firebase-user.js'
 import { storage } from '../main.js';
 
 // Pseudocódigo para la privacidad:
-/* si el current user es diferente al id del post, y 
+/* si el current user es diferente al id del post, y
 privacy del post === private, se debe ocultar
  */
 // debe recibir la data de todos los posts individualmente, o sea con el snapshot
@@ -216,23 +216,23 @@ const timelineView = (user) => {
   // Crear Post
   const btnSharePost = section.querySelector('#share-post');
   btnSharePost.addEventListener('click', () => {
-    let contentPost = section.querySelector('.content-post').value;
+    let contentPost = section.querySelector('.content-post');
     const date = new Date().toLocaleString();
     const privacy = section.querySelector('#privacy-post').value;
 
     if (contentPost !== '') {
       if (selectedFile === '') {
-        createPost(user.id, user.name, date, contentPost, '', user.photo, privacy)
+        createPost(user.id, user.name, date, contentPost.value, '', user.photo, privacy)
           .then(() => {
             console.log('post creado');
-            contentPost = '';
+            contentPost.value = '';
             allPosts();
           })
           .catch(err => console.error(err));
       } else {
         console.log('post con imagen');
         uploadFile(user.id, selectedFile)
-          .then(imgpost => createPost(user.id, user.name, date, contentPost, imgpost, user.photo, privacy))
+          .then(imgpost => createPost(user.id, user.name, date, contentPost.value, imgpost, user.photo, privacy))
           .then(() => {
             console.log('post con imagen creado');
             contentPost = '';
