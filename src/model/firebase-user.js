@@ -15,13 +15,14 @@ La usamos para comprobar
 Devuelve una promesa */
 export const dataUser = id => firebase.firestore().collection('usersY').doc(id).get();
 
-export const createPost = (id, userName, date, contentPost, imgPost, userPhoto) => firebase.firestore().collection('postsY').doc().set({
+export const createPost = (id, userName, date, contentPost, imgPost, userPhoto, privacy) => firebase.firestore().collection('postsY').doc().set({
   user: id,
   name: userName,
   date,
   content: contentPost,
   img: imgPost,
   photo: userPhoto,
+  privacy,
 });
 
 // Cuando se terminó el inicio de sesión, ya puede acceder a todo
@@ -38,18 +39,12 @@ export const validationUser = callback => firebase.auth().onAuthStateChanged((us
 
 export const deletePost = postId => firebase.firestore().collection('postsY').doc(postId).delete();
 
-export const editTextPost = (postId, content) => firebase.firestore().collection('postsY')
+export const editTextPost = (postId, content, privacy) => firebase.firestore().collection('postsY')
   .doc(postId).update({
     content,
+    privacy,
   });
-/* export const validationUser = callback => firebase.auth().onAuthStateChanged((user) => {
-  let route = '';
-  if (window.location.hash === '#/Registro') route = '#/Registro';
-  if (user) {
-    route = window.location.hash;
-  }
-  return callback(route);
-}); */
+
 
 // Para subir un archivo a Cloud Storage, primero debes crear una referencia a la ruta
 // de acceso completa del archivo, incluido el nombre.

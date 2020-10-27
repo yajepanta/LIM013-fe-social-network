@@ -2,16 +2,21 @@ import { logOut } from '../model/firebase-auth.js';
 import { createPost, deletePost, editTextPost } from '../model/firebase-user.js';
 import { storage } from '../main.js';
 
+// Pseudocódigo para la privacidad:
+/* si el current user es diferente al id del post, y 
+privacy del post === private, se debe ocultar
+ */
 // debe recibir la data de todos los posts individualmente, o sea con el snapshot
 // y retornar cada fragmento anidado al section timelineview
 const postsView = (posts) => {
+  const currentUser = firebase.auth().currentUser;
   const post = posts.data();
   const postsTmplt = `
       <div class="card-header">
         <img src="${post.photo}" class='post-profile-picture rounded' alt="profile-picture">
         <span id='post-author-name'>${post.name}</span> 
-        <button type="button" class='edit-post post-btn'><i class="fas fa-edit"></i> Editar</button>
-        <button type='button' class='delete-post post-btn'><i class="fas fa-trash-alt"></i></button>    
+        <button type="button" class='${currentUser.uid === post.user ? 'edit-post post-btn' : 'hidden'}'><i class="fas fa-edit"></i> Editar</button>
+        <button type='button' class='${currentUser.uid === post.user ? 'delete-post post-btn' : 'hidden'}'><i class="fas fa-trash-alt"></i></button>    
       </div>
   
       <div class="card-text">
@@ -32,46 +37,58 @@ const postsView = (posts) => {
   div.innerHTML = postsTmplt;
   timelineFragment.appendChild(div);
 
+  if (currentUser.uid !== post.user && post.privacy === 'private') {
+    div.classList.add('hidden');
+  }
+
   const btnDeletePost = div.querySelector('.delete-post');
-  btnDeletePost.addEventListener('click', () => {
-    deletePost(posts.id)
-      .then(() => { div.setAttribute('class', 'hidden'); })
-      .catch(err => console.error(err));
-  });
+  if (btnDeletePost) {
+    btnDeletePost.addEventListener('click', () => {
+      deletePost(posts.id)
+        .then(() => { div.setAttribute('class', 'hidden'); })
+        .catch(err => console.error(err));
+    });
+  }
+
 
   // Edita in-place
   const btnEditPost = div.querySelector('.edit-post');
-  btnEditPost.addEventListener('click', () => {
-    const contentPost = div.querySelector('.content-post');
-    contentPost.removeAttribute('readonly');
-    contentPost.classList.add('focus');
-    const cardFooter = div.querySelector('.card-footer');
-    cardFooter.innerHTML = `
-    <label for='privacy-post'> </label>
-          <select name='privacy' id='privacy-post'>
-            <option value='public'> <i class="fas fa-globe-americas"> Público</i> </option>
-            <option value='private'> <i class="fas fa-user-lock"></i> Privado</option>
-          </select>  
-          
-          <button id="share-post" class="post-btn"><i class="fas fa-share-square"></i> Compartir</button>`;
-    // Comparte post editado
-    const btnSharePost = div.querySelector('#share-post');
-    btnSharePost.addEventListener('click', () => {
-      if (contentPost.value !== '') {
-        editTextPost(posts.id, contentPost.value)
-          .then(() => {
-            contentPost.setAttribute('readonly', 'readonly');
-            contentPost.classList.remove('focus');
-            cardFooter.innerHTML = `
-            <button type="button" id="like-post" class="post-btn"> <i class="fas fa-thumbs-up">1</i> Me gusta</button>
-            <button class="post-btn comment-post"><i class="fas fa-comments">3</i> Comentar</button>`;
-          })
-          .catch(err => console.error(err));
-      } else {
-        console.error('post vacío');
-      }
+  // por que no lee mi boton si no tiene condicional, como hago que cargue desps del dom
+  if (btnEditPost) {
+    btnEditPost.addEventListener('click', () => {
+      const contentPost = div.querySelector('.content-post');
+      contentPost.removeAttribute('readonly');
+      contentPost.classList.add('focus');
+      const cardFooter = div.querySelector('.card-footer');
+      cardFooter.innerHTML = `
+      <label for='privacy-post'> </label>
+            <select name='privacy' id='privacy-post'>
+              <option value='public'> <i class="fas fa-globe-americas"> Público</i> </option>
+              <option value='private'> <i class="fas fa-user-lock"></i> Privado</option>
+            </select>  
+            
+            <button id="share-post" class="post-btn"><i class="fas fa-share-square"></i> Compartir</button>`;
+      // Comparte post editado
+      const privacy = div.querySelector('#privacy-post');
+      const btnSharePost = div.querySelector('#share-post');
+      btnSharePost.addEventListener('click', () => {
+        console.log(privacy.value);
+        if (contentPost.value !== '') {
+          editTextPost(posts.id, contentPost.value, privacy.value)
+            .then(() => {
+              contentPost.setAttribute('readonly', 'readonly');
+              contentPost.classList.remove('focus');
+              cardFooter.innerHTML = `
+              <button type="button" id="like-post" class="post-btn"> <i class="fas fa-thumbs-up">1</i> Me gusta</button>
+              <button class="post-btn comment-post"><i class="fas fa-comments">3</i> Comentar</button>`;
+            })
+            .catch(err => console.error(err));
+        } else {
+          console.error('post vacío');
+        }
+      });
     });
-  });
+  }
 
   return timelineFragment;
 };
@@ -183,6 +200,7 @@ const timelineView = (user) => {
   // Timeline: Llamamos a los posts. Revisar el condicional .where('user', '==', currentUser.uid)
   const allPosts = () => {
     timeline.innerHTML = '';
+
     firebase.firestore().collection('postsY')
       .orderBy('date', 'desc')
       .onSnapshot((querySnapshot) => {
@@ -200,10 +218,11 @@ const timelineView = (user) => {
   btnSharePost.addEventListener('click', () => {
     let contentPost = section.querySelector('.content-post').value;
     const date = new Date().toLocaleString();
+    const privacy = section.querySelector('#privacy-post').value;
 
     if (contentPost !== '') {
       if (selectedFile === '') {
-        createPost(user.id, user.name, date, contentPost, '', user.photo)
+        createPost(user.id, user.name, date, contentPost, '', user.photo, privacy)
           .then(() => {
             console.log('post creado');
             contentPost = '';
@@ -213,7 +232,7 @@ const timelineView = (user) => {
       } else {
         console.log('post con imagen');
         uploadFile(user.id, selectedFile)
-          .then(imgpost => createPost(user.id, user.name, date, contentPost, imgpost, user.photo))
+          .then(imgpost => createPost(user.id, user.name, date, contentPost, imgpost, user.photo, privacy))
           .then(() => {
             console.log('post con imagen creado');
             contentPost = '';
