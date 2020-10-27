@@ -2,7 +2,7 @@ const profileView = () => {
   const profileTmplt = `
     <div class="portada">
       <div id="contendor-imagen">
-       <img id="portada-mensaje" src="/img/frase.png">
+       <img id="portada-mensaje" src="./img/frase.png">
      </div>
     </div>
     <div class="formulario-actualizacion">
