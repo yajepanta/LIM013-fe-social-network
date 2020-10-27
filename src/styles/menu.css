@@ -73,7 +73,7 @@ nav > ul > li > a:hover {
         position: static;
         display: inline;
         width: auto;
-        height: auto;
+        height: 80px;
         margin: 0;
         background-color: rgba(232,232,232,1);       
         transform: translateX(0%);
