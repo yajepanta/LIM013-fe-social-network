@@ -179,7 +179,6 @@ textarea {
     #profile {
         display: flex;
         margin: 0;
-        justify-content: flex-end;
         grid-column: 2;
         width: 350px;
         min-height:100px;

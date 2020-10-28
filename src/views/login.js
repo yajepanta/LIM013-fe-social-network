@@ -1,26 +1,26 @@
-import { logInUser, logInFb, logInGm } from '../model/firebase-auth.js';
+import { logInUser, logInGm } from '../model/firebase-auth.js';
 
 import { createUser } from '../model/firebase-user.js';
 
 export const logInView = () => {
   const logInTmplt = `  
-      <div class="saludo">
+      <div class='saludo'>
         <h1>¡Bienvenido a InnovaSocial!</h1>
         <p>En este lugar podrás comunicarte y compartir recursos</p>
       </div>
       <div id="formulario-principal">
         <form id="form-login">
           <i class="fas fa-envelope-square"></i>
-          <input type="text" id="email" name="correo" placeholder="Correo Electrónico" class="input-form" required/><br>
+          <input type="text" id="email" name="correo" placeholder="Correo electrónico" class="input-form" required/><br>
           <i class="fas fa-lock"></i>
           <input type="password" id="password" name="clave" placeholder="Contraseña"class="input-form" required/><br>
           <p id='messages-error'></p>
           <button  type="submit" id="btn-ingresar">INGRESAR</button>
-          <p>O también</p>
-          <br>
-          <button type="button" id="btn-gmail" class="redes"><i class="fab fa-google-plus-square"></i> Ingresa con Google</button>
-          <p>¿Todavia no eres miembro?</p>
-          <a id="nueva-cuenta" href="#/Registro">Únete Ahora</a>
+          <p>O</p>
+         
+          <button type="button" id="btn-gmail" class="redes"><img src='https://d2k1ftgv7pobq7.cloudfront.net/meta/c/p/res/images/8215f6659adc202403198fef903a447e/sign-in-with-google.svg'> Ingresar con Google</button>
+          <p>¿Todavía no eres miembro?</p>
+          <a id="register-link" href="#/Registro">Únete ahora</a>
         </form>
       </div>
     </div>
@@ -52,8 +52,8 @@ export const logInView = () => {
             result.user.providerData[0].displayName,
             result.user.providerData[0].email,
             result.user.providerData[0].photoURL,
-            '5to de primaria',
-            'Campus',
+            '',
+            '',
           );
         } else {
           console.log('Usuario ya existe, no es necesario crear uno nuevo. Ir a mi perfil');

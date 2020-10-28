@@ -2,13 +2,12 @@ header {
     background-color:rgba(232,232,232,1);
     width: 100vw;
     height: 80px;
-    /* position: fixed; */
     display: none;
     justify-content: space-between;
     align-items: center;
   
 }
-.mostrar{
+.show{
     display: flex;
 }
 
@@ -30,27 +29,26 @@ header > label {
 
 nav {
     position: absolute; 
+    display: none;
     width: 100vw;
     background-color: rgba(33,96,150,1);
-    margin-top: 115px; 
-    transform: translateX(+100%);
-    transition: 0.5s;
+    margin-top: 210px; 
 }
 
 nav > ul {
-    display: flex;
     flex-direction: column;
     margin:0;
     padding: 0;
-    list-style: none;       
+    list-style: none;        
 }
 
 nav > ul > li > a {
     display: block;
+    width: 100vw;
     padding: 15px;
     color: white;
     text-decoration: none;
-    border-top: 1px solid white;
+    border-top: 1px solid white; 
 }
 
 nav > ul > li > a:hover {
@@ -59,7 +57,9 @@ nav > ul > li > a:hover {
 
 /* si se dio check al input, llama a la barra de navegación */
 #check-menu:checked ~ nav {
-    transform: translateX(0%);
+    display: flex;
+    margin-left:0;
+    transition: 1s;
 }
 
 @media screen and (min-width: 890px)  {
@@ -70,8 +70,9 @@ nav > ul > li > a:hover {
 
     nav {
         position: static;
+        display: inline;
         width: auto;
-        height: auto;
+        height: 80px;
         margin: 0;
         background-color: rgba(232,232,232,1);       
         transform: translateX(0%);
@@ -85,6 +86,7 @@ nav > ul > li > a:hover {
     }
 
     nav > ul > li > a {
+        width: 12vw;
         border: none;
         color:#007cba;
     }
@@ -93,4 +95,10 @@ nav > ul > li > a:hover {
         background: initial;
         color: #f7971c;
     }
+    #check-menu:checked ~ nav {
+        flex-direction: row;
+        margin-left:0;
+        transition: 1s;
+    }
 }
+

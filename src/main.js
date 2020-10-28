@@ -20,22 +20,11 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 // Get a non-default Storage bucket
 /* export const storage = firebase.app().storage('gs://imgY'); */
-export const storage = firebase.storage();
-/*
-export const uploadImgPost = (file, uid) => {
-  const refImgPost = firebase.storage().ref(`imagePost/${uid}/${file.name}`);
-  return refImgPost.put(file).then(snapshot => (snapshot.ref.getDownloadURL()));
-};
-const init = () => {
-  changeView(window.location.hash);
-  window.addEventListener('hashchange', () => changeView(window.location.hash));
-};
 
-window.addEventListener('load', init); */
 
 const initialize = () => {
   validationUser(changeView);
 };
 
 window.addEventListener('load', initialize);
-/* window.addEventListener('hashchange', initialize); */
+window.addEventListener('hashchange', initialize);

@@ -1,133 +1,106 @@
-.imagen-celular{
+#view-login-desktop{
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+	justify-content: center;
+	align-content: center;
+	height: 65vh;
+}
+.img-desktop{
 	display: none;
 }
-
-#view-login-desktop{
-		display: flex;
-		width: 100%;
-		flex-wrap: wrap;
-		justify-content: center;
+.saludo{
+	display: none;
 }
-.item-login{
-    width: 50%;
-}
-#img-colegio{
-		width: 50vw;
-		height: 100vh;
-}
-.formulario-login{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-		justify-content: center;
-		text-align: center;
-		background-color: #EEF2F5;
-}
-.formulario-login h1{
-	color: #007cba;
-		font-size: 40px;
-		margin-bottom: 3%;
-}
-.formulario-login p{
-	color: #065FA2;
-		font-size: 20px;
-		margin-bottom: 6%;
-}
-.input-form{
-		font-size: 18px;
-		margin-bottom: 12%;
-		margin-left: 6px;
-		border:solid 2px #41A530;
-		border-radius: 4px;
-}
-.formulario-login i{
-	font-size: x-large;
-	color: #41A530;
-}
-#btn-ingresar{
-	margin-bottom: 6%;
-	padding: 15px 45px;
-	font-size: 15px;
-	cursor: pointer;
-	text-align: center;
-	text-decoration: none;
-	outline: none;
-  color: #fff;
-  background-color: #007cba;
-  border: none;
-  border-radius: 15px;
-  box-shadow: 0 5px #999;
-}
-#btn-ingresar:hover {
-	background-color: #065FA2;
-}
-#btn-ingresar:active {
-  background-color: #065FA2;
-  box-shadow: 0 5px #666;
-  transform: translateY(4px);
-}
-
-#btn-gmail{
-	border: solid cornflowerblue;
-}
-#btn-gmail i{
-	color:floralwhite;
-	font-size: xx-large;
-
-}
-.redes {
-	background-color: cornflowerblue;
-	font-size: large;
-	color: white;
-	border-radius: 5px;
-	width: 70%;
-	height: 55px;
-	margin-right: 5%;
-	margin-bottom: 6%;
-	outline: none;
-	cursor: pointer;
-}
-.redes:hover {
-	background-color: #C0C1C2;
-}
-#nueva-cuenta{
-	font-size: 22px;
-	color: #f7971c;
-	font-weight: bold;
-}
-
-@media (max-width:600px){
-	.saludo{
-		display: none;
-	}
-	.imagen-celular{
-		display: flex;
-		width: 100%;
-		margin-top: 0;
-	}
-	#img-celular{
-		width: 100%;
-	}
-	.imagen-login{
-		display: none;
-	}
-	.item-login{
-		width: 100%;
-		height: 100vh;
-}
-.formulario-login{
+.img-mobile{
 	display: flex;
-	flex-direction: column;
-	justify-content: flex-start;
-	align-items: center;
-	background:#EEF2F5;
+	width: 100%;
+	margin-top: 0;
 }
+.img-mobile > img{
+	width: 100%;
+	height: 35vh;
+}
+
 #formulario-principal{
 	display: flex;
-	margin-top: 10%;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 }
 #correo{
 	margin-top: 15%;
 }
+#btn-ingresar{
+	padding: 10px 15px;
+	font-size: 15px;
+	cursor: pointer;
+	text-align: center;
+	color: #fff;
+	background-color:#41A530;
+	border: none;
+	border-radius: 15px;
+	box-shadow: 1px 3px #999;
+}
+#btn-ingresar:hover {
+	background-color: #4e9542;
+}
+.redes {
+	font-size: large;
+	vertical-align: middle;
+	background: #fff;
+	cursor: pointer;
+	color: rgba(0,0,0,0.54);
+	border-radius: 5px;
+	border-color: transparent;
+	text-align: center;
+	width: 60%;
+	height: 55px;
+	box-shadow: rgba(0,0,0,0.2) 1px 1px 5px 0;
+}
+.redes:hover {
+	background-color: #EEF2F5;
+}
+#register-link{
+	color: #f7971c;
+	font-weight: bold;
+}
 
+@media screen and (min-width: 890px) {
+	
+	.img-mobile{
+		display: none;
+	}
+	.saludo{
+		display: flex;
+		flex-direction: column;
+	}
+	.img-desktop{
+		display: flex;
+	}
+	.img-desktop img{
+		width: 50vw;
+		height: 100vh;
+	}	
+	.formulario-login{
+		text-align: center;
+		background-color: #EEF2F5;
+	}
+	.formulario-login h1{
+		color: #007cba;
+		font-size: 40px;
+	}
+	.formulario-login p{
+		color: #065FA2;
+		font-size: 20px;
+	}
+	.input-form{
+		font-size: 18px;
+		border:solid 2px #41A530;
+		border-radius: 4px;
+	}
+	.formulario-login i{
+		font-size: x-large;
+		color: #41A530;
+	}	
 }

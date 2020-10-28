@@ -47,12 +47,12 @@ export const registerView = () => {
   const btnRegister = fragment.querySelector('#btn-register');
   btnRegister.addEventListener('click', (e) => {
     e.preventDefault();
-    const name = fragment.querySelector('#form-name').value;
-    const lastName = fragment.querySelector('#form-lastname').value;
+    const name = section.querySelector('#form-name').value;
+    const lastName = section.querySelector('#form-lastname').value;
     const fullName = name + lastName;
-    const email = fragment.querySelector('#form-email').value;
-    const pass = fragment.querySelector('#form-pass').value;
-    const passCheck = fragment.querySelector('#form-pass-check').value;
+    const email = section.querySelector('#form-email').value;
+    const pass = section.querySelector('#form-pass').value;
+    const passCheck = section.querySelector('#form-pass-check').value;
     if (name === '') {
       alert('name');
     } else if (lastName === '') {
@@ -64,10 +64,9 @@ export const registerView = () => {
     } else if (pass !== passCheck) {
       alert('pass diferente');
     } else {
-      const firstLetter = name.slice(0, 1);
       registerUser(email, pass)
         // Result es "user" con todos los datos que luego se almacenan en createUser
-        .then((result) => { createUser(result.user.uid, fullName, email, firstLetter, 'primaria/secundaria', 'Sede'); })
+        .then((result) => { createUser(result.user.uid, fullName, email, '', 'primaria/secundaria', 'Campus'); })
         // Recibe un undefined. por que?
         .then(() => logInUser(email, pass))
         .then(() => { window.location.hash = '#/Inicio'; })

@@ -1,6 +1,5 @@
 import { logOut } from '../model/firebase-auth.js';
 import { createPost, deletePost, editTextPost } from '../model/firebase-user.js';
-import { storage } from '../main.js';
 
 // Pseudocódigo para la privacidad:
 /* si el current user es diferente al id del post, y
@@ -24,11 +23,12 @@ const postsView = (posts) => {
         <textarea class="content-post" name="post-text-posted" readonly>${post.content}</textarea>
         <img src='${post.img}' class='${post.img ? 'post-img' : 'post-img hidden'}' height="150" alt="Post Image">
       </div>
-  
+      
       <div class="card-footer">
         <button type="button" id="like-post" class="post-btn"> <i class="fas fa-thumbs-up">1</i> Me gusta</button>
         <button class="post-btn comment-post"><i class="fas fa-comments">3</i> Comentar</button>
       </div>
+      
   `;
   // Obtengo un div de class post card por cada post
   const timelineFragment = document.createDocumentFragment();
@@ -50,7 +50,6 @@ const postsView = (posts) => {
     });
   }
 
-
   // Edita in-place
   const btnEditPost = div.querySelector('.edit-post');
   // por que no lee mi boton si no tiene condicional, como hago que cargue desps del dom
@@ -65,10 +64,11 @@ const postsView = (posts) => {
             <select name='privacy' id='privacy-post'>
               <option value='public'> <i class="fas fa-globe-americas"> Público</i> </option>
               <option value='private'> <i class="fas fa-user-lock"></i> Privado</option>
-            </select>  
-            
-            <button id="share-post" class="post-btn"><i class="fas fa-share-square"></i> Compartir</button>`;
-      // Comparte post editado
+            </select>
+            <button id="share-post" class="post-btn"><i class="fas fa-share-square"></i> Compartir</button>
+            `;
+
+      // Comparte el post editado
       const privacy = div.querySelector('#privacy-post');
       const btnSharePost = div.querySelector('#share-post');
       btnSharePost.addEventListener('click', () => {
@@ -79,8 +79,8 @@ const postsView = (posts) => {
               contentPost.setAttribute('readonly', 'readonly');
               contentPost.classList.remove('focus');
               cardFooter.innerHTML = `
-              <button type="button" id="like-post" class="post-btn"> <i class="fas fa-thumbs-up">1</i> Me gusta</button>
-              <button class="post-btn comment-post"><i class="fas fa-comments">3</i> Comentar</button>`;
+                <button type="button" id="like-post" class="post-btn"> <i class="fas fa-thumbs-up"></i> Me gusta</button>
+                <button class="post-btn comment-post"><i class="fas fa-comments"></i> Comentar</button>`;
             })
             .catch(err => console.error(err));
         } else {
@@ -89,7 +89,6 @@ const postsView = (posts) => {
       });
     });
   }
-
   return timelineFragment;
 };
 
@@ -146,10 +145,11 @@ const timelineView = (user) => {
   if (user.photo !== undefined) {
     photo.src = user.photo;
   } else {
+    const firstLetter = user.name.slice(0, 1);
     const divImgProfile = document.createElement('div');
     divImgProfile.classList.add('profile-undefined');
     const profileData = section.querySelector('.profile-data');
-    divImgProfile.innerHTML = user.photo;
+    divImgProfile.innerHTML = firstLetter;
     photo.classList.add('hidden');
     const profile = document.getElementById('profile');
     profile.insertBefore(divImgProfile, profileData);
@@ -180,13 +180,14 @@ const timelineView = (user) => {
       };
       /* Starts reading the contents of the specified Blob, once finished,
       the result attribute contains a data: URL representing the file's data.
-      Va al final del evento onload porque debe estar cargada la imagen para recien
+      Va al final del evento onload porque debe estar cargada la imagen para recién
       pasarla a URL */
       reader.readAsDataURL(selectedFile);
     }
   });
 
   const uploadFile = (userID, img) => {
+    const storage = firebase.storage();
     // subimos la referencia de la imagen al storage
     const uploadTask = storage.ref(`imgY/${userID}/${img.name}`).put(img);
     // nos devuelve una promesa a la que luego anidaremos otra promesa.
@@ -244,10 +245,8 @@ const timelineView = (user) => {
     }
   });
 
-
   // agregar otro recorrido para que obtenga los dtos en tiempo real de cada usuario
   // e introducir esa data dentro de all posts
-
 
   // Cerrar sesión
   const btnLogOut = document.getElementById('btn-logout');
@@ -255,11 +254,10 @@ const timelineView = (user) => {
     logOut()
       .then(() => {
         window.location.hash = '#/Cerrar';
-        document.querySelector('#nav').classList.remove('mostrar');
+        document.querySelector('#nav').classList.remove('show');
       })
       .catch(err => console.error(err));
   });
-
   return fragment;
 };
 
