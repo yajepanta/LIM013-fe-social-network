@@ -21,12 +21,12 @@ const postsView = (posts) => {
       <div class="card-text">
         <label for="post-text-posted"></label>
         <textarea class="content-post" name="post-text-posted" readonly>${post.content}</textarea>
-        <img src='${post.img}' class='${post.img ? 'post-img' : 'post-img hidden'}' height="150" alt="Post Image">
+        <img src='${post.img}' class='${post.img ? 'post-img' : 'post-img hidden'}' width='150' height="150" alt="Post Image">
       </div>
       
       <div class="card-footer">
-        <button type="button" id="like-post" class="post-btn"> <i class="fas fa-thumbs-up">1</i> Me gusta</button>
-        <button class="post-btn comment-post"><i class="fas fa-comments">3</i> Comentar</button>
+      <!-- <button type="button" id="like-post" class="post-btn"> <i class="fas fa-thumbs-up">1</i> Me gusta</button> -->
+        <button class="post-btn comment-post"><i class="fas fa-comments"></i> Comentar</button>
       </div>
       
   `;
@@ -79,7 +79,7 @@ const postsView = (posts) => {
               contentPost.setAttribute('readonly', 'readonly');
               contentPost.classList.remove('focus');
               cardFooter.innerHTML = `
-                <button type="button" id="like-post" class="post-btn"> <i class="fas fa-thumbs-up"></i> Me gusta</button>
+              <!-- <button type="button" id="like-post" class="post-btn"> <i class="fas fa-thumbs-up"></i> Me gusta</button> -->
                 <button class="post-btn comment-post"><i class="fas fa-comments"></i> Comentar</button>`;
             })
             .catch(err => console.error(err));
@@ -113,11 +113,11 @@ const timelineView = (user) => {
 
         <div class='card-footer'>
           <label for='privacy-post'> </label>
-          <select name='privacy' id='privacy-post'>
-            <option value='public'> <i class="fas fa-globe-americas"> Público</i> </option>
-            <option value='private'> <i class="fas fa-user-lock"></i> Privado</option>
+          <select class="fa select-privacy" name='privacy' id='privacy-post'>
+            <option class="fa select-privacy" value='public'>  &#xf57d; </option>
+            <option class="fa select-privacy" value='private'> &#xf023; </option>
           </select>  
-          <label for='upload-img' class="post-btn"><i class="fas fa-images"></i> Subir imagen
+          <label for='upload-img' class="post-btn"><i class="fas fa-images"></i> Agregar imagen
             <input type='file' id='upload-img' class='post-btn' accept='image/png, image/jpeg'>
           </label>
           <button id="share-post" class="post-btn"><i class="fas fa-share-square"></i> Compartir</button>

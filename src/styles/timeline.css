@@ -5,6 +5,16 @@
     align-items: center; 
   }
 
+.select-privacy{
+  font-family:  'Montserrat', sans-serif  ; 
+  font-size: 25px !important;
+  font-weight:normal;
+  cursor: pointer;
+  border: 1px solid white;
+  color: #007cba;
+  background-color: white;
+}
+
   /* Tarjeta para datos de perfil y posts */
 .card {
     background-color: white;
@@ -116,8 +126,11 @@ textarea {
 .focus {
   border: 2px solid black;
 }
+
+/* .post-img {
+    justify-self: end;
+} */
 .card-footer{
-    width: 280px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;   
@@ -135,6 +148,9 @@ textarea {
     background:  #80ba33;
 }
 
+.comment-post{
+    margin-left: 160px;
+}
 /* Timeline: Ya posteados */
 
 .post-profile-picture{
@@ -164,8 +180,10 @@ textarea {
 }
 
 .card-text{
+  display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-content: center;
+  align-items: center;
   border-radius: 20px;
 }
 @media screen and (min-width: 890px)  {
@@ -187,12 +205,15 @@ textarea {
     .card {
         background-color: white;
         width: 500px;
-        min-height:200px;
     }
 
     textarea {
       width: 450px;
   }
+
+  .comment-post{
+    margin-left: 320px;
+}
     #timeline {
         grid-column: 3;
     }
