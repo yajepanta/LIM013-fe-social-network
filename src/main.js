@@ -6,14 +6,14 @@ import { validationUser } from './model/firebase-user.js';
 /* For Firebase JS SDK v7.20.0 and later, measurementId is optional */
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyC9ZhlH1bwwh4Hg3cNhthVBgQi-nm3CZRI',
-  authDomain: 'laboratoria-innova-social.firebaseapp.com',
-  databaseURL: 'https://laboratoria-innova-social.firebaseio.com',
-  projectId: 'laboratoria-innova-social',
-  storageBucket: 'laboratoria-innova-social.appspot.com',
-  messagingSenderId: '351018093792',
-  appId: '1:351018093792:web:624d3175b4a2838cdfd485',
-  measurementId: 'G-K9TCSL5QH0',
+  apiKey: 'AIzaSyAAt9Qsfp8EhbBvCwaUxC4qhtWrwu8vdrA',
+  authDomain: 'innova-social.firebaseapp.com',
+  databaseURL: 'https://innova-social.firebaseio.com',
+  projectId: 'innova-social',
+  storageBucket: 'innova-social.appspot.com',
+  messagingSenderId: '178442920943',
+  appId: '1:178442920943:web:8bf7721b2cccf0b6f24c1a',
+  gs: '//innova-social.appspot.com/img',
 };
 
 // Initialize Firebase. Todas las llamadas a firebase deben ser después de este incio

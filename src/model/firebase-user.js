@@ -1,7 +1,7 @@
 /* import { storage } from '../main.js' */
 /* Crea usuario, el documento recibe el nombre del id */
 export const createUser = (id, name, email, photo, grade, campus) => firebase.firestore()
-  .collection('usersY').doc(id).set({
+  .collection('users').doc(id).set({
     id,
     name,
     email,
@@ -13,9 +13,9 @@ export const createUser = (id, name, email, photo, grade, campus) => firebase.fi
 /* Obtenemos la data ya almacenada de nuestro usuario dentro de la colección UsersY.
 La usamos para comprobar
 Devuelve una promesa */
-export const dataUser = id => firebase.firestore().collection('usersY').doc(id).get();
+export const dataUser = id => firebase.firestore().collection('users').doc(id).get();
 
-export const createPost = (id, userName, date, contentPost, imgPost, userPhoto, privacy) => firebase.firestore().collection('postsY').doc().set({
+export const createPost = (id, userName, date, contentPost, imgPost, userPhoto, privacy) => firebase.firestore().collection('posts').doc().set({
   user: id,
   name: userName,
   date,
@@ -34,13 +34,10 @@ export const validationUser = callback => firebase.auth().onAuthStateChanged((us
   }
   return callback(route);
 });
-/* else {
-    route = '';
-    console.log('no user');
-  } */
-export const deletePost = postId => firebase.firestore().collection('postsY').doc(postId).delete();
 
-export const editTextPost = (postId, content, privacy) => firebase.firestore().collection('postsY')
+export const deletePost = postId => firebase.firestore().collection('posts').doc(postId).delete();
+
+export const editTextPost = (postId, content, privacy) => firebase.firestore().collection('posts')
   .doc(postId).update({
     content,
     privacy,

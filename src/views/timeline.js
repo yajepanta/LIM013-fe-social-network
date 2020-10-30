@@ -178,7 +178,7 @@ const timelineView = (user) => {
 
   // Upload image
   const fileInput = section.querySelector('#upload-img');
-  const previewCard = section.querySelector('.preview-card');
+  /* const previewCard = section.querySelector('.preview-card'); */
   const preview = section.querySelector('.preview');
   let selectedFile = '';
   fileInput.addEventListener('change', () => {
@@ -212,7 +212,7 @@ const timelineView = (user) => {
   const uploadFile = (userID, img) => {
     const storage = firebase.storage();
     // subimos la referencia de la imagen al storage
-    const uploadTask = storage.ref(`imgY/${userID}/${img.name}`).put(img);
+    const uploadTask = storage.ref(`img/${userID}/${img.name}`).put(img);
     // nos devuelve una promesa a la que luego anidaremos otra promesa.
     // a la promesa le adjuntamos el método getDownloadURL, queda en pending
     // hasta que se resuelve dentro de la instancia con los datos de file.
@@ -223,7 +223,7 @@ const timelineView = (user) => {
   // Render each posts .where('user', '==', currentUser.uid)
   const allPosts = () => {
     const timeline = section.querySelector('#timeline');
-    firebase.firestore().collection('postsY')
+    firebase.firestore().collection('posts')
       .orderBy('date', 'desc')
       .onSnapshot((querySnapshot) => {
         timeline.innerHTML = '';
@@ -233,7 +233,7 @@ const timelineView = (user) => {
       });
   };
 
-  window.addEventListener('onload', allPosts());
+  window.addEventListener('onload', allPosts()); 
 
   // Create Post
   const btnSharePost = section.querySelector('.share-post');
