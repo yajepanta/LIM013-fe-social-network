@@ -60,50 +60,6 @@
 	border-radius: 30%;
 }	
 
-/* Desplegable botón privacidad */
-.dropbtn {
-  background-color: #007cba;
-  color: white;
-  border: none;
-}
-  
-  /* Div dentro del botón privacidad */
-.dropdown {
-    position: relative;
-    display: inline-block;
-  }
-  
-  /* Hidden */
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    /* min-width: 30px; */
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
- /*    z-index: 1; */
-  }
-  
-  /* Links inside the dropdown */
-  .dropdown-content a {
-    color: black;
-    padding: 12px;
-    text-decoration: none;
-    display: block;
-  }
-  
-  /* Change color of dropdown links on hover */
-  .dropdown-content a:hover {
-    background-color: #ddd;
-  }
-  
-  /* Show the dropdown menu on hover */
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
-  
-  /* Change the background color of the dropdown button when the dropdown content is shown */
-/*   .dropdown:hover .dropbtn {background-color: #3e8e41;} */
-  
 /* Cuadro para postear */
 .post {
     flex-direction: column;
@@ -120,16 +76,13 @@ textarea {
     border: 1px solid lightgray;
     color: gray;
     margin: 10px 0 10px 0;
-    user-select: none;
+    outline: transparent;
   }  
 
 .focus {
   border: 2px solid black;
 }
 
-/* .post-img {
-    justify-self: end;
-} */
 .card-footer{
     display: flex;
     flex-direction: row;
@@ -142,6 +95,7 @@ textarea {
     border: none;
     border-radius: 20px;
     padding: 10px 15px;
+    outline: transparent;
 }
 
 .post-btn:hover, .dropbtn:hover, .dropdown:hover {
@@ -185,6 +139,13 @@ textarea {
   justify-content: center;
   align-items: center;
   border-radius: 20px;
+}
+
+.cancel-img {
+  background-color: transparent;
+  border: none;
+  color:  #007cba;
+  outline: transparent;
 }
 @media screen and (min-width: 890px)  {
 

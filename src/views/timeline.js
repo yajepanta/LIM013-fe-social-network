@@ -1,18 +1,14 @@
 import { logOut } from '../model/firebase-auth.js';
 import { createPost, deletePost, editTextPost } from '../model/firebase-user.js';
 
-// Pseudocódigo para la privacidad:
-/* si el current user es diferente al id del post, y
-privacy del post === private, se debe ocultar
- */
-// debe recibir la data de todos los posts individualmente, o sea con el snapshot
-// y retornar cada fragmento anidado al section timelineview
+/*  Template and post's functions */
+
 const postsView = (posts) => {
   const currentUser = firebase.auth().currentUser;
   const post = posts.data();
   const postsTmplt = `
       <div class="card-header">
-        <img src="${post.photo}" class='post-profile-picture rounded' alt="profile-picture">
+        <img src='${post.photo === 'noPhoto' ? './img/avatar.png' : post.photo}' class='post-profile-picture rounded' alt="profile-picture">
         <span id='post-author-name'>${post.name}</span> 
         <button type="button" class='${currentUser.uid === post.user ? 'edit-post post-btn' : 'hidden'}'><i class="fas fa-edit"></i> Editar</button>
         <button type='button' class='${currentUser.uid === post.user ? 'delete-post post-btn' : 'hidden'}'><i class="fas fa-trash-alt"></i></button>    
@@ -28,9 +24,24 @@ const postsView = (posts) => {
       <!-- <button type="button" id="like-post" class="post-btn"> <i class="fas fa-thumbs-up">1</i> Me gusta</button> -->
         <button class="post-btn comment-post"><i class="fas fa-comments"></i> Comentar</button>
       </div>
-      
+      <div class='card-footer card-footer-edit hidden'>
+          <label for='privacy-post'> </label>
+          <select class="fa select-privacy" name='privacy' id='privacy-post'>
+            <option class="fa select-privacy" value='public'>  &#xf57d; </option>
+            <option class="fa select-privacy" value='private'> &#xf023; </option>
+          </select>
+
+          <label for='upload-img' class="post-btn"><i class="fas fa-images"></i> Agregar imagen
+            <input type='file' id='upload-img' class='post-btn' accept='image/png, image/jpeg'>
+          </label>
+          
+          <button class="post-btn share-post"><i class="fas fa-share-square"></i> Compartir</button>
+      </div>
+      <button class='cancel-img hidden'><i class="far fa-times-circle"></i></button>
+      <img src='' class='preview hidden' height="150" alt="Image preview...">
+
   `;
-  // Obtengo un div de class post card por cada post
+
   const timelineFragment = document.createDocumentFragment();
   const div = document.createElement('div');
   div.setAttribute('class', 'post card');
@@ -41,57 +52,56 @@ const postsView = (posts) => {
     div.classList.add('hidden');
   }
 
+  /* Delete post */
   const btnDeletePost = div.querySelector('.delete-post');
-  if (btnDeletePost) {
-    btnDeletePost.addEventListener('click', () => {
-      deletePost(posts.id)
-        .then(() => { div.setAttribute('class', 'hidden'); })
-        .catch(err => console.error(err));
-    });
-  }
+  btnDeletePost.addEventListener('click', () => {
+    deletePost(posts.id)
+      .then(() => { div.classList.add('hidden'); })
+      .catch(err => console.error(err));
+  });
 
-  // Edita in-place
+
+  /* Edit post in-place */
   const btnEditPost = div.querySelector('.edit-post');
-  // por que no lee mi boton si no tiene condicional, como hago que cargue desps del dom
-  if (btnEditPost) {
-    btnEditPost.addEventListener('click', () => {
-      const contentPost = div.querySelector('.content-post');
-      contentPost.removeAttribute('readonly');
-      contentPost.classList.add('focus');
-      const cardFooter = div.querySelector('.card-footer');
-      cardFooter.innerHTML = `
-      <label for='privacy-post'> </label>
-            <select name='privacy' id='privacy-post'>
-              <option value='public'> <i class="fas fa-globe-americas"> Público</i> </option>
-              <option value='private'> <i class="fas fa-user-lock"></i> Privado</option>
-            </select>
-            <button id="share-post" class="post-btn"><i class="fas fa-share-square"></i> Compartir</button>
-            `;
 
-      // Comparte el post editado
-      const privacy = div.querySelector('#privacy-post');
-      const btnSharePost = div.querySelector('#share-post');
-      btnSharePost.addEventListener('click', () => {
-        console.log(privacy.value);
-        if (contentPost.value !== '') {
-          editTextPost(posts.id, contentPost.value, privacy.value)
-            .then(() => {
-              contentPost.setAttribute('readonly', 'readonly');
-              contentPost.classList.remove('focus');
-              cardFooter.innerHTML = `
-              <!-- <button type="button" id="like-post" class="post-btn"> <i class="fas fa-thumbs-up"></i> Me gusta</button> -->
-                <button class="post-btn comment-post"><i class="fas fa-comments"></i> Comentar</button>`;
-            })
-            .catch(err => console.error(err));
-        } else {
-          console.error('post vacío');
-        }
-      });
+  btnEditPost.addEventListener('click', () => {
+    const contentPost = div.querySelector('.content-post');
+    contentPost.removeAttribute('readonly');
+    contentPost.classList.add('focus');
+
+    const cardFooter = div.querySelector('.card-footer');
+    cardFooter.classList.add('hidden');
+
+    const cardFooterEditOptions = div.querySelector('.card-footer-edit');
+    cardFooterEditOptions.classList.remove('hidden');
+
+    /* Share edited post */
+    const privacy = div.querySelector('#privacy-post');
+    const btnSharePost = div.querySelector('.share-post');
+    btnSharePost.addEventListener('click', () => {
+      if (contentPost.value !== '') {
+        editTextPost(posts.id, contentPost.value, privacy.value)
+          .then(() => {
+            contentPost.setAttribute('readonly', 'readonly');
+            contentPost.classList.remove('focus');
+            cardFooter.classList.remove('hidden');
+            cardFooterEditOptions.classList.add('hidden');
+          })
+          .catch(err => console.error(err));
+      } else {
+        editTextPost(posts.id, contentPost.value, privacy.value)
+          .then(() => {
+            contentPost.classList.add('hidden');
+          })
+          .catch(err => console.error(err));
+      }
     });
-  }
+  });
+
   return timelineFragment;
 };
 
+/* Render posts */
 const timelineView = (user) => {
   const timelineTmplt = `
     <section id="profile" class="card">
@@ -116,13 +126,18 @@ const timelineView = (user) => {
           <select class="fa select-privacy" name='privacy' id='privacy-post'>
             <option class="fa select-privacy" value='public'>  &#xf57d; </option>
             <option class="fa select-privacy" value='private'> &#xf023; </option>
-          </select>  
+          </select>
+
           <label for='upload-img' class="post-btn"><i class="fas fa-images"></i> Agregar imagen
             <input type='file' id='upload-img' class='post-btn' accept='image/png, image/jpeg'>
           </label>
-          <button id="share-post" class="post-btn"><i class="fas fa-share-square"></i> Compartir</button>
+          
+          <button class="post-btn share-post"><i class="fas fa-share-square"></i> Compartir</button>
         </div>
-        <img src='' class='preview hidden' height="150" alt="Image preview...">
+        <div class='preview-card'>
+          <button class='cancel-img hidden'><i class="far fa-times-circle"></i></button>
+          <img src='' class='preview hidden' height="150" alt="Image preview...">
+        </div>
       </div>  
     </section>
 
@@ -131,8 +146,6 @@ const timelineView = (user) => {
     </section>
 `;
 
-  /* const div = document.createElement('div');
-  div.innerHTML = timelineTmplt; */
   const fragment = document.createDocumentFragment();
   const section = document.createElement('section');
   section.setAttribute('id', 'timelineView');
@@ -142,29 +155,34 @@ const timelineView = (user) => {
   const photo = section.querySelector('#photo-profile');
   const campus = section.querySelector('.campus');
 
-  if (user.photo !== undefined) {
-    photo.src = user.photo;
-  } else {
+  /* User's profile data */
+
+  if (user.photo === 'noPhoto') {
     const firstLetter = user.name.slice(0, 1);
     const divImgProfile = document.createElement('div');
     divImgProfile.classList.add('profile-undefined');
     const profileData = section.querySelector('.profile-data');
     divImgProfile.innerHTML = firstLetter;
     photo.classList.add('hidden');
-    const profile = document.getElementById('profile');
+    const profile = section.querySelector('#profile');
     profile.insertBefore(divImgProfile, profileData);
+  } else {
+    photo.src = user.photo;
   }
 
   if (user.description !== undefined) {
     campus.innerHTML = user.description;
   }
 
+  /* Post's Functions */
+
+  // Upload image
   const fileInput = section.querySelector('#upload-img');
-
+  const previewCard = section.querySelector('.preview-card');
+  const preview = section.querySelector('.preview');
   let selectedFile = '';
-
   fileInput.addEventListener('change', () => {
-    const preview = section.querySelector('.preview');
+    const btnCancel = section.querySelector('.cancel-img');
     preview.classList.remove('hidden');
 
     const reader = new FileReader();
@@ -172,18 +190,23 @@ const timelineView = (user) => {
     selectedFile = fileInput.files[0];
 
     // reader pasa por varios estados, seleccionamos el onload
-    if (selectedFile) {
-      // el reader recibe un evento que es todo el proceso de cargar la imagen. progress event
-      reader.onload = () => {
-        // reader result es la imagen en código Blob (base64 string)        imgURL = reader.result;
-        preview.src = reader.result;
-      };
-      /* Starts reading the contents of the specified Blob, once finished,
+    btnCancel.classList.remove('hidden');
+    btnCancel.addEventListener('click', () => {
+      selectedFile = '';
+      preview.classList.add('hidden');
+      btnCancel.classList.add('hidden');
+    });
+    // el reader recibe un evento que es todo el proceso de cargar la imagen. progress event
+    reader.onload = () => {
+      // reader result es la imagen en código Blob (base64 string)
+      preview.src = reader.result;
+    };
+    /* Starts reading the contents of the specified Blob, once finished,
       the result attribute contains a data: URL representing the file's data.
       Va al final del evento onload porque debe estar cargada la imagen para recién
       pasarla a URL */
-      reader.readAsDataURL(selectedFile);
-    }
+    btnCancel.classList.remove('hidden');
+    reader.readAsDataURL(selectedFile);
   });
 
   const uploadFile = (userID, img) => {
@@ -197,58 +220,59 @@ const timelineView = (user) => {
     return uploadTask.then(snapshot => snapshot.ref.getDownloadURL());
   };
 
-  const timeline = section.querySelector('#timeline');
-  // Timeline: Llamamos a los posts. Revisar el condicional .where('user', '==', currentUser.uid)
+  // Render each posts .where('user', '==', currentUser.uid)
   const allPosts = () => {
-    timeline.innerHTML = '';
-
+    const timeline = section.querySelector('#timeline');
     firebase.firestore().collection('postsY')
       .orderBy('date', 'desc')
       .onSnapshot((querySnapshot) => {
+        timeline.innerHTML = '';
         querySnapshot.forEach((doc) => {
           timeline.appendChild(postsView(doc));
         });
       });
   };
 
-  // Llamamos a los posts
-  allPosts();
+  window.addEventListener('onload', allPosts());
 
-  // Crear Post
-  const btnSharePost = section.querySelector('#share-post');
+  // Create Post
+  const btnSharePost = section.querySelector('.share-post');
   btnSharePost.addEventListener('click', () => {
-    let contentPost = section.querySelector('.content-post');
-    const date = new Date().toLocaleString();
+    const contentPost = section.querySelector('.content-post');
+    const date = new Date();
     const privacy = section.querySelector('#privacy-post').value;
+    // switch
 
-    if (contentPost !== '') {
+    if (contentPost.value !== '') {
       if (selectedFile === '') {
         createPost(user.id, user.name, date, contentPost.value, '', user.photo, privacy)
           .then(() => {
-            console.log('post creado');
             contentPost.value = '';
             allPosts();
           })
           .catch(err => console.error(err));
       } else {
-        console.log('post con imagen');
         uploadFile(user.id, selectedFile)
           .then(imgpost => createPost(user.id, user.name, date, contentPost.value, imgpost, user.photo, privacy))
           .then(() => {
-            console.log('post con imagen creado');
-            contentPost = '';
+            contentPost.value = '';
             allPosts();
           });
       }
-    } else {
-      console.error('post vacío');
+    }
+    if (contentPost.value === '') {
+      if (selectedFile !== '') {
+        uploadFile(user.id, selectedFile)
+          .then(imgpost => createPost(user.id, user.name, date, contentPost.value, imgpost, user.photo, privacy))
+          .then(() => {
+            contentPost.value = '';
+            allPosts();
+          });
+      }
     }
   });
 
-  // agregar otro recorrido para que obtenga los dtos en tiempo real de cada usuario
-  // e introducir esa data dentro de all posts
-
-  // Cerrar sesión
+  // Log out
   const btnLogOut = document.getElementById('btn-logout');
   btnLogOut.addEventListener('click', () => {
     logOut()

@@ -1,5 +1,6 @@
 header {
-    background-color:rgba(232,232,232,1);
+    background: rgb(255,255,255);
+    background: linear-gradient(357deg, rgba(255,255,255,1) 0%, rgba(246,248,248,1) 36%, rgba(182,194,198,1) 100%);
     width: 100vw;
     height: 80px;
     display: none;
@@ -72,9 +73,8 @@ nav > ul > li > a:hover {
         position: static;
         display: inline;
         width: auto;
-        height: 80px;
         margin: 0;
-        background-color: rgba(232,232,232,1);       
+        background-color: transparent;       
         transform: translateX(0%);
     }
 

@@ -14,7 +14,7 @@ export const logInView = () => {
           <input type="text" id="email" name="correo" placeholder="Correo electrónico" class="input-form" required/><br>
           <i class="fas fa-lock"></i>
           <input type="password" id="password" name="clave" placeholder="Contraseña"class="input-form" required/><br>
-          <p id='messages-error'></p>
+          <p class='msg-error'></p>
           <button  type="submit" id="btn-ingresar">INGRESAR</button>
           <p>O</p>
          
@@ -80,7 +80,7 @@ export const logInView = () => {
         window.location.hash = '#/Inicio';
       })
       .catch(() => {
-        section.querySelector('#messages-error').innerHTML = '⚠️ Correo o clave no son correctos.';
+        section.querySelector('.msg-error').innerHTML = '⚠️ Correo o clave no son correctos.';
         alert('credenciales incorrectos');
       });
   });

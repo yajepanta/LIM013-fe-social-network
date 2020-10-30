@@ -30,8 +30,17 @@ export const registerView = () => {
           <label for='form-pass-check'></label>
           <input type='text' id='form-pass-check' name='form-pass-check' placeholder='Vuelve a escribir la contraseña'>
         </li>
+        <label for="campus">Campus: </label>
+        <select id='campus'>
+          <option value='ate'>Ate</option>
+          <option value='callao'>Callao</option>
+          <option value='rimac'>Rímac</option>
+          <option value='ves'>Villa El Salvador</option> 
+        </select>
         <li>
-          <button type="button" id='btn-register' class='button-post'>REGISTRARTE</button>
+          <p class='msg-error hidden'> ⚠️ Por favor, completa todos los campos </p>
+          <p class='msg-error-pass hidden'> ⚠️ Las contraseñas no coinciden </p> <br>
+          <button type="button" id='btn-register' class='post-btn'>REGISTRARTE</button>
         </li>  
       </ul> 
     </form>
@@ -49,51 +58,32 @@ export const registerView = () => {
     e.preventDefault();
     const name = section.querySelector('#form-name').value;
     const lastName = section.querySelector('#form-lastname').value;
-    const fullName = name + lastName;
+    const fullName = `${name} ${lastName}`;
     const email = section.querySelector('#form-email').value;
     const pass = section.querySelector('#form-pass').value;
     const passCheck = section.querySelector('#form-pass-check').value;
+    const campus = section.querySelector('#campus').value;
+    const msgError = section.querySelector('.msg-error');
+    const msgErrorPass = section.querySelector('.msg-error-pass');
+
     if (name === '') {
-      alert('name');
+      msgError.classList.remove('hidden');
     } else if (lastName === '') {
-      alert('lastName');
+      msgError.classList.remove('hidden');
     } else if (email === '') {
-      alert('email');
+      msgError.classList.remove('hidden');
     } else if (pass === '') {
-      alert('falta pass');
+      msgError.classList.remove('hidden');
     } else if (pass !== passCheck) {
-      alert('pass diferente');
+      msgErrorPass.classList.remove('hidden');
     } else {
       registerUser(email, pass)
-        // Result es "user" con todos los datos que luego se almacenan en createUser
-        .then((result) => { createUser(result.user.uid, fullName, email, '', 'primaria/secundaria', 'Campus'); })
-        // Recibe un undefined. por que?
+        .then((result) => { createUser(result.user.uid, fullName, email, 'noPhoto', 'primaria/secundaria', campus); })
         .then(() => logInUser(email, pass))
         .then(() => { window.location.hash = '#/Inicio'; })
-        .catch(error => console.log(error));
+        .catch(err => console.error(err));
     }
   });
 
   return fragment;
 };
-
-/*
-      registerUser(email, pass)
-        .then((result) => {
-          console.log(result);
-       createUser(result.user.uid, fullName, email, 'img/perfil.png', 'primaria/secundaria', 'Sede')
-            .then(() => {
-              console.log('se creó el usuario');
-            });
-          logInUser(email, pass)
-            .then(() => {
-              window.location.hash = '#/Inicio';
-            });
-        })
-        .catch(() => {
-          console.log('Cuenta ya existe');
-        });
-    }
-  });
-
-         */
