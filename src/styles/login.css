@@ -97,10 +97,11 @@
 	
 	.img-desktop{
 		display: flex;
+		margin: 0;
+		height: 100%;
 	}
-	.img-desktop img{
+	.img-desktop > img{
 		width: 50vw;
-		height: 100vh;
 	}	
 	.formulario-login{
 		text-align: center;

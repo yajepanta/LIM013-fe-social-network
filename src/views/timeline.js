@@ -22,7 +22,7 @@ const postsView = (posts) => {
       
       <div class="card-footer">
       <!-- <button type="button" id="like-post" class="post-btn"> <i class="fas fa-thumbs-up">1</i> Me gusta</button> -->
-        <button class="post-btn comment-post"><i class="fas fa-comments"></i> Comentar</button>
+      <!--   <button class="post-btn comment-post"><i class="fas fa-comments"></i> Comentar</button> -->
       </div>
       <div class='card-footer card-footer-edit hidden'>
           <label for='privacy-post'> </label>
@@ -141,7 +141,7 @@ const timelineView = (user) => {
       </div>  
     </section>
 
-    <!-- SECCIÓN CON LOS DEMÁS POSTS timelineView appendChild-->
+    <!-- SECCIÓN CON LOS DEMÁS POSTS -->
     <section id='timeline'>
     </section>
 `;
@@ -233,7 +233,7 @@ const timelineView = (user) => {
       });
   };
 
-  window.addEventListener('onload', allPosts()); 
+ 
 
   // Create Post
   const btnSharePost = section.querySelector('.share-post');
@@ -282,6 +282,8 @@ const timelineView = (user) => {
       })
       .catch(err => console.error(err));
   });
+
+  window.addEventListener('onload', allPosts());
   return fragment;
 };
 
