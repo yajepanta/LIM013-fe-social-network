@@ -6,21 +6,34 @@ export const logInView = () => {
   const logInTmplt = `  
       <div class='saludo'>
         <h1>¡Bienvenido a InnovaSocial!</h1>
-        <p>En este lugar podrás comunicarte y compartir recursos</p>
+        <p>En este lugar podrás comunicarte <br> y compartir recursos.</p>
       </div>
-      <div id="formulario-principal">
+      <div class= 'main-form'>
         <form id="form-login">
-          <i class="fas fa-envelope-square"></i>
-          <input type="text" id="email" name="correo" placeholder="Correo electrónico" class="input-form" required/><br>
-          <i class="fas fa-lock"></i>
-          <input type="password" id="password" name="clave" placeholder="Contraseña"class="input-form" required/><br>
-          <p class='msg-error'></p>
-          <button  type="submit" id="btn-ingresar">INGRESAR</button>
-          <p>O</p>
-         
-          <button type="button" id="btn-gmail" class="redes"><img src='https://d2k1ftgv7pobq7.cloudfront.net/meta/c/p/res/images/8215f6659adc202403198fef903a447e/sign-in-with-google.svg'> Ingresar con Google</button>
-          <p>¿Todavía no eres miembro?</p>
-          <a id="register-link" href="#/Registro">Únete ahora</a>
+          <ul class="form-login">
+            <li>
+              <i class="fas fa-envelope-square"></i>
+              <input type="text" id="email" name="correo" placeholder="Correo electrónico" class="input-form" required/>
+            </li>
+            <li>
+              <i class="fas fa-lock"></i>
+              <input type="password" id="password" name="clave" placeholder="Contraseña"class="input-form" required/>         
+            </li>
+            <li>
+              <p class='msg-error'></p>
+              <button  type="submit" id="btn-ingresar" class='btn-ingresar'>INGRESAR</button>
+            </li>
+            <li> 
+                <br>
+                <p> O también</p>
+            </li>    
+            <li>
+              <button type="button" id="btn-gmail" class="redes"><img src='https://d2k1ftgv7pobq7.cloudfront.net/meta/c/p/res/images/8215f6659adc202403198fef903a447e/sign-in-with-google.svg'> Ingresar con Google</button>
+            </li>
+            <li>
+              <p>¿Todavía no eres miembro? <a id="register-link" href="#/Registro">Únete ahora</a></p>  
+            </li>  
+          </ul>  
         </form>
       </div>
     </div>
