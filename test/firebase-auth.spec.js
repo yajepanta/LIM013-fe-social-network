@@ -1,5 +1,5 @@
 import {
-  register, logIn, logInFb, logInGm, logOut,
+  registerUser, logInUser, logInGm, logOut,
 } from '../src/model/firebase-auth.js';
 
 // Llamamos al mock instalado en node_modules, y a sus métodos
@@ -17,21 +17,21 @@ global.firebase = firebasemock.MockFirebaseSdk(
 
 // Inician tests
 
-describe('register', () => {
+describe('registerUser', () => {
   it('Debería ser una función', () => {
-    expect(typeof register).toBe('function');
+    expect(typeof registerUser).toBe('function');
   });
-  it('Deberia crear un nuevo usuario', () => register('hola@gmail.com', '123456')
+  it('Deberia crear un nuevo usuario', () => registerUser('hola@gmail.com', '123456')
     .then((user) => {
       expect(user.email).toBe('hola@gmail.com');
     }));
 });
 
-describe('logIn', () => {
+describe('logInUser', () => {
   it('Debería ser una función', () => {
-    expect(typeof logIn).toBe('function');
+    expect(typeof logInUser).toBe('function');
   });
-  it('Debería iniciar sesión', () => logIn('hola@gmail.com', '123456')
+  it('Debería iniciar sesión', () => logInUser('hola@gmail.com', '123456')
     .then((user) => {
       expect(user.email).toBe('hola@gmail.com');
     }));
@@ -45,17 +45,6 @@ describe('logInGm', () => {
     .then((data) => {
       const provider = data.providerData[0].providerId;
       expect(provider).toBe('google.com');
-    }));
-});
-
-describe('logInFb', () => {
-  it('Debería ser una función', () => {
-    expect(typeof logInFb).toBe('function');
-  });
-  it('Debería iniciar sesión con Facebook', () => logInFb()
-    .then((data) => {
-      const provider = data.providerData[0].providerId;
-      expect(provider).toBe('facebook.com');
     }));
 });
 

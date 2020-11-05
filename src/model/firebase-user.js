@@ -43,6 +43,15 @@ export const editTextPost = (postId, content, privacy) => firebase.firestore().c
     privacy,
   });
 
+export const allPosts = (callback) => {
+  firebase.firestore().collection('posts')
+    .orderBy('date', 'desc')
+    .onSnapshot((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        callback(doc);
+      });
+    });
+};
 
 // Para subir un archivo a Cloud Storage, primero debes crear una referencia a la ruta
 // de acceso completa del archivo, incluido el nombre.

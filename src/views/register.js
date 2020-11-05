@@ -59,7 +59,6 @@ export const registerView = () => {
   const btnReturn = section.querySelector('#btn-return');
   btnReturn.addEventListener('click', () => { window.location.hash = '#/Inicio'; });
 
-
   /* Create new account */
   const btnRegister = section.querySelector('#btn-register');
   btnRegister.addEventListener('click', (e) => {

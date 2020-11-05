@@ -39,7 +39,6 @@ const postsView = (posts) => {
       </div>
       <button class='cancel-img hidden'><i class="far fa-times-circle"></i></button>
       <img src='' class='preview hidden' height="150" alt="Image preview...">
-
   `;
 
   const timelineFragment = document.createDocumentFragment();
@@ -59,7 +58,6 @@ const postsView = (posts) => {
       .then(() => { div.classList.add('hidden'); })
       .catch(err => console.error(err));
   });
-
 
   /* Edit post in-place */
   const btnEditPost = div.querySelector('.edit-post');
@@ -233,8 +231,6 @@ const timelineView = (user) => {
       });
   };
 
- 
-
   // Create Post
   const btnSharePost = section.querySelector('.share-post');
   btnSharePost.addEventListener('click', () => {
@@ -253,7 +249,9 @@ const timelineView = (user) => {
           .catch(err => console.error(err));
       } else {
         uploadFile(user.id, selectedFile)
-          .then(imgpost => createPost(user.id, user.name, date, contentPost.value, imgpost, user.photo, privacy))
+          .then(imgpost => createPost(
+            user.id, user.name, date, contentPost.value, imgpost, user.photo, privacy,
+          ))
           .then(() => {
             contentPost.value = '';
             allPosts();
@@ -263,6 +261,7 @@ const timelineView = (user) => {
     if (contentPost.value === '') {
       if (selectedFile !== '') {
         uploadFile(user.id, selectedFile)
+          // eslint-disable-next-line max-len
           .then(imgpost => createPost(user.id, user.name, date, contentPost.value, imgpost, user.photo, privacy))
           .then(() => {
             contentPost.value = '';
